@@ -4,6 +4,7 @@ from django.apps import apps
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from rest_framework.authtoken.models import Token
+from common.models import CommonModel
 
 
 class CustomUserManager(UserManager):
@@ -55,7 +56,7 @@ class CustomUserManager(UserManager):
                 backend, _ = backends[0]
             else:
                 raise ValueError(
-                    "You have multiple authentication backends configured and "
+                    "You have multiple authentication.py backends configured and "
                     "therefore must provide the `backend` argument."
                 )
         elif not isinstance(backend, str):
@@ -97,9 +98,19 @@ class User(AbstractUser):
         max_length=150,
         default="",
     )
+    phone_number = models.CharField(max_length=15, default="", blank=True)
+    nickname = models.CharField(max_length=10, unique=True, default="", blank=True)
 
     def __str__(self):
-        return self.username
+        return self.nickname
 
     class Meta:
         db_table = "User"
+
+
+class Jwt(CommonModel):
+    user = models.OneToOneField(
+        User, related_name="login_user", on_delete=models.CASCADE
+    )
+    access = models.TextField()
+    refresh = models.TextField()

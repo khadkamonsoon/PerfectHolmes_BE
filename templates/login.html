@@ -22,15 +22,15 @@
                 </div>
             </div>
             <form>
-                <input class="input_id" type="text" placeholder="아이디" value="">
-                <input class="input_pw" type="password" placeholder="비밀번호" value="">
-                <button type="submit" class="login_btn">로그인</button>
+                <input class="input_id" type="text" id="username" placeholder="아이디" value="">
+                <input class="input_pw" type="password" id="password" placeholder="비밀번호" value="">
+                <button type="button" id="submit" class="login_btn">로그인</button>
                 <div class="find_btn_group">
                     <li class="find_btn">
                         <a id="id-find" href="#" class="id_find_click">아이디 찾기</a>
                     </li>
                     <li class="find_btn1">
-                        <a id="id-find" href="#" class="id_find_click">비밀번호 찾기</a>
+                        <a id="id-find" href="#" class="password_find_click">비밀번호 찾기</a>
                     </li>
                 </div>
                 <div class="signup">
@@ -41,4 +41,43 @@
     </div>
 </div>
 </body>
+<script>
+    function login() {
+        let username = $('#username').val();
+        let password = $('#password').val();
+
+        $.ajax({
+            url: "/auth/login/",
+            data: {
+                username: username,
+                password: password,
+            },
+            method: "POST",
+            success: function (data) {
+                console.log(data);
+                location.replace("/");
+            },
+            error: function (request, status, error) {
+                console.log(error);
+                alert("입력하신 정보가 올바르지 않습니다.");
+
+            },
+            complete: function (data) {
+            },
+        });
+    }
+
+    $('#submit').click(function () {
+        login()
+    });
+
+    $(document).keyup(function (event) {
+        if (event.which === 13) {
+            login()
+        }
+    });
+
+
+</script>
 </html>
+
