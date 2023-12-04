@@ -11,3 +11,4 @@ boto
 boto3
 cryptography
 pre-commit
+pandas

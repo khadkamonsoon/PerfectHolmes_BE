@@ -188,3 +188,5 @@ media/
 
 # log file
 log.django
+
+school_data.csv
