@@ -21,16 +21,16 @@
             </div>
             <form>
                 <div class="text_box">닉네임</div>
-                <input class="input_nick" type="text" placeholder="Nickname" value="">
+                <input class="input_nick" type="text" id="nickname" placeholder="Nickname" value="">
                 <div class="text_box">이름</div>
-                <input class="input_name" type="password" placeholder="Name" value="">
+                <input class="input_name" type="password" id="name" placeholder="Name" value="">
                 <div class="text_box">이메일</div>
-                <input class="input_email" type="text" placeholder="Email" value="">
+                <input class="input_email" type="text" id="email" placeholder="Email" value="">
                 <div class="text_box">비밀번호</div>
-                <input class="input_pw" type="password" placeholder="Password" value="">
-                <div class="text_box">비밀번호확인</div>
-                <input class="input_pw" type="password" placeholder="Password Check" value="">
-                <button type="submit" class="login_btn">완료</button>
+                <input class="input_pw" type="password" id="password" placeholder="Password" value="">
+                <div class="text_box">비밀번호 확인</div>
+                <input class="input_pw" type="password" id="password2" placeholder="Password Check" value="">
+                <button type="signup_submit" class="login_btn">완료</button>
             </form>
         </div>
     </div>
@@ -52,6 +52,22 @@
             $(this).data('placeholder', $(this).attr('placeholder'));
         });
     });
+    $('#signup_submit').click(function () {
+    });
+
+    $(document).keyup(function (event) {
+        if (event.which === 13) {
+        }
+    });
+
+    function signup(){
+        let username = $('#username').val();
+        let name = $('#name').val();
+        let email = $('#email').val();
+        let password = $('#password').val();
+        let password2 = $('#password2').val();
+    }
+
 </script>
 
 </html>
