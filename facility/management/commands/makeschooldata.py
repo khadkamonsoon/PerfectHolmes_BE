@@ -8,7 +8,7 @@ from django.conf import settings
 class Command(BaseCommand):
     def handle(self, *args, **options):
         # csv 파일 가져오기
-        path = os.path.join(settings.BASE_DIR, "user.csv")
+        path = os.path.join(settings.BASE_DIR, "school_data.csv")
         df = pd.read_csv(path)
 
         # 카카오 API_KEY 가져오기
