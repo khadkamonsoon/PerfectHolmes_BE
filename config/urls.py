@@ -20,6 +20,7 @@ import config.views as views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("auth/", include("users.urls")),
+    path("facility/", include("facility.urls")),
     path("login/", views.login, name="login"),
     path("signup/", views.signup, name="signup"),
 ]
