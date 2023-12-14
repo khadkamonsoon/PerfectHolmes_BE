@@ -43,3 +43,5 @@ LOGGING = {
         },
     },
 }
+
+KAKAO_API_KEY = env("KAKAO_API_KEY")

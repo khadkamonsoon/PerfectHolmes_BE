@@ -11,7 +11,7 @@ def read_secret(secret_name):
 
 DEBUG = False
 
-SECRET_KEY = read_secret("DJANGO_SECRET_KEY")
+SECRET_KEY = read_secret("SECRET_KEY")
 
 ALLOWED_HOSTS = ["*"]
 
@@ -51,3 +51,5 @@ LOGGING = {
         },
     },
 }
+
+KAKAO_API_KEY = read_secret("KAKAO_API_KEY")

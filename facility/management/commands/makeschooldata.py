@@ -13,8 +13,7 @@ class Command(BaseCommand):
 
         # 카카오 API_KEY 가져오기
         environ.Env.read_env(os.path.join(settings.BASE_DIR, ".env"))
-        env = environ.Env(DEBUG=(bool, True))
-        KAKAO_API_KEY = env("KAKAO_API_KEY")
+        KAKAO_API_KEY = settings.KAKAO_API_KEY
 
         # Request Header 설정
         headers = {"Authorization": f"KakaoAK {KAKAO_API_KEY}"}
