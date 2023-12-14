@@ -1,0 +1,66 @@
+version: "3.7"
+services:
+  nginx:
+    image: nginx:1.19.5
+    ports:
+      - mode: host
+        protocol: tcp
+        target: 80
+        published: 80
+    networks:
+      - network
+
+    volumes:
+      - /home/WithCampus_BE/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - static-volume:/data/static
+      - media-volume:/data/media
+    depends_on:
+      - django_container_gunicorn
+
+
+  mariadb:
+    image: mariadb:10.5
+    networks:
+      - network
+    volumes:
+      - maria-database:/var/lib/mysql
+    secrets:
+      - MYSQL_PASSWORD
+      - MYSQL_ROOT_PASSWORD
+    environment:
+      MYSQL_DATABASE: django
+      MYSQL_USER: django
+      MYSQL_PASSWORD_FILE: /run/secrets/MYSQL_PASSWORD
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/MYSQL_ROOT_PASSWORD
+
+
+  django_container_gunicorn:
+    image: django:v1.0.0
+    networks:
+      - network
+    volumes:
+      - /home/WithCampus_BE/images:/home/WithCampus_BE/static/images
+      - static-volume:/home/WithCampus_BE/staticfiles
+      - media-volume:/home/WithCampus_BE/media
+    secrets:
+      - DJANGO_SECRET_KEY
+      - MYSQL_PASSWORD
+
+
+networks:
+  network:
+
+
+volumes:
+  static-volume:
+  media-volume:
+  maria-database:
+
+
+secrets:
+  DJANGO_SECRET_KEY:
+    external: true
+  MYSQL_PASSWORD:
+    external: true
+  MYSQL_ROOT_PASSWORD:
+    external: true
