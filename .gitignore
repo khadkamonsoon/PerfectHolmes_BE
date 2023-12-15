@@ -191,3 +191,5 @@ log.django
 
 school_data.csv
 Dockerfile
+
+staticfiles
