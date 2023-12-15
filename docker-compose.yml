@@ -11,7 +11,7 @@ services:
       - network
 
     volumes:
-      - /home/WithCampus_BE/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /home/PerfectHolmes_BE/nginx/nginx.conf:/etc/nginx/nginx.conf
       - static-volume:/data/static
       - media-volume:/data/media
     depends_on:
@@ -39,12 +39,13 @@ services:
     networks:
       - network
     volumes:
-      - /home/WithCampus_BE/images:/home/WithCampus_BE/static/images
-      - static-volume:/home/WithCampus_BE/staticfiles
-      - media-volume:/home/WithCampus_BE/media
+      - /home/PerfectHolmes_BE/images:/home/PerfectHolmes_BE/static/images
+      - static-volume:/home/PerfectHolmes_BE/staticfiles
+      - media-volume:/home/PerfectHolmes_BE/media
     secrets:
-      - DJANGO_SECRET_KEY
+      - SECRET_KEY
       - MYSQL_PASSWORD
+      - KAKAO_API_KEY
 
 
 networks:
@@ -58,9 +59,11 @@ volumes:
 
 
 secrets:
-  DJANGO_SECRET_KEY:
+  SECRET_KEY:
     external: true
   MYSQL_PASSWORD:
     external: true
   MYSQL_ROOT_PASSWORD:
+    external: true
+  KAKAO_API_KEY:
     external: true

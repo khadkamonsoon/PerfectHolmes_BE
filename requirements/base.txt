@@ -13,3 +13,4 @@ cryptography
 pre-commit
 pandas
 haversine
+drf-yasg
