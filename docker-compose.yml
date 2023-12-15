@@ -17,7 +17,6 @@ services:
     depends_on:
       - django_container_gunicorn
 
-
   mariadb:
     image: mariadb:10.5
     networks:

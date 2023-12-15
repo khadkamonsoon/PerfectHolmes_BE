@@ -10,6 +10,11 @@ class Command(BaseCommand):
         # csv 파일 가져오기
         path = os.path.join(settings.BASE_DIR, "school_data.csv")
         df = pd.read_csv(path)
+        # amazon instance에 ftp 로 업로드
+        # docker cp 명령어로 container 에 복사
+        # container 에서 파일 확인 후 명령어 실행
+        # container 재실행
+        # amazon instance 에 파일 삭제
 
         # 카카오 API_KEY 가져오기
         environ.Env.read_env(os.path.join(settings.BASE_DIR, ".env"))
