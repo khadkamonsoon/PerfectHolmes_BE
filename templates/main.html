@@ -18,6 +18,7 @@
 <script>
     var map;
     var marker;
+    var circle;
 
     // 목포를 기본 지도로
     function selectMapList() {
@@ -90,8 +91,8 @@
     // 마커 업데이트
     function updateMarker(latlng) {
         if (marker) {
-            // 마커가 이미 존재하면 제거
             marker.setMap(null);
+            circle.setMap(null);
         }
 
         // 새로운 마커 생성
@@ -99,11 +100,24 @@
             map: map,
             position: latlng,
         });
+
+         // 반경 생성
+         circle = new naver.maps.Circle({
+            map: map,
+            center: latlng,
+            radius: 500, // 반경 500m
+            fillColor: '#4285F4',
+            fillOpacity: 0.2,
+            strokeColor: '#4285F4',
+            strokeOpacity: 0.5,
+            strokeWeight: 2,
+        });
     }
 
     // 좌표 전송
     function sendCoordinatesToServer(lat, lng) {
         
     }
+    
 </script>
 </html>
