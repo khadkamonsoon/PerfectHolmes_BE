@@ -25,4 +25,5 @@ urlpatterns = [
     path("facility/", include("facility.urls")),
     path("login/", views.login, name="login"),
     path("signup/", views.signup, name="signup"),
+    path("main/", views.main_page, name="main"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
