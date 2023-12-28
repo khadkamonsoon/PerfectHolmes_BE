@@ -1,0 +1,15 @@
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 683px;
+    z-index: 1; /* 검색 및 사이드 바보다 낮은 z-index 값 */
+}
+
+.search {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2; /* 맵보다 높은 z-index 값 */
+}
