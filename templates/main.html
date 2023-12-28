@@ -7,6 +7,50 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <link href="/static/css/main.css" rel="stylesheet">
     <title>메인 페이지</title>
+
+    <style type="text/css">
+
+        header {
+            list-style-type: none;
+            background-color: white;
+            width: 62px;
+            padding: 0;
+            margin:  0;
+            height: 100%;
+            overflow: auto;
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            font-size: 12px;
+        }
+    
+        li a {
+            text-decoration: none;
+            display: block;
+            color: #000;
+            padding: 8px 15px 8px 15px;
+            font-weight: bold;
+        }
+    
+        li a.job {
+            background-color: #814444;
+            color: #fff;
+        }
+    
+        li a:hover:not(.job) {
+            background-color: #333;
+            color: #fff;
+        }
+
+        img {
+            width: 265px;
+            height: 70px;
+            margin-bottom: 20px;
+            display: flex;
+        }
+    
+    </style>
+
 </head>
 <body>
     <div id="map"></div>
@@ -14,7 +58,16 @@
     <div class="search">
         <input id="address" type="text" placeholder="검색할 주소">
         <input id="submit" type="button" value="주소검색">
-    </div>  
+    </div>
+    
+    <header>
+        <h1 class="logo_box"><a class="logo_box" href="#"> <img src="/static/img/logo1.png" alt="logo"></a></h1>
+        <li><a href="#">지도 홈</a></li>
+        <li><a href="#">주변</a></li>
+        <li><a href="#">저장</a></li>
+        <li><a href="#">더보기</a></li>
+    </header>
+
 </body>
 <script>
     var map;
