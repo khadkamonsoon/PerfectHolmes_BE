@@ -10,6 +10,6 @@
 .search {
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 95px;
     z-index: 2; /* 맵보다 높은 z-index 값 */
 }
