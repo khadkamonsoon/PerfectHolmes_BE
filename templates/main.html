@@ -6,6 +6,7 @@
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2yf3rqafqw&submodules=geocoder"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <link href="/static/css/main.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/417f8ed01c.js" crossorigin="anonymous"></script>
     <title>메인 페이지</title>
 
     <style type="text/css">
@@ -24,6 +25,10 @@
             font-size: 12px;
         }
     
+        li {
+            text-align: center;
+        }
+        
         li a {
             text-decoration: none;
             display: block;
@@ -31,7 +36,15 @@
             padding: 8px 15px 8px 15px;
             font-weight: bold;
             font-size: 12px;
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
         }
+        
+        li a i {
+            margin-bottom: 5px; 
+        }
+        
     
         li a.job {
             background-color: #814444;
@@ -46,8 +59,16 @@
         img {
             width: 60px;
             height: 60px;
-            margin-bottom: 20px;
             display: flex;
+        }
+
+        ul.nav-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
     
@@ -64,10 +85,20 @@
     
     <header>
         <h1 class="logo_box"><a class="logo_box" href="#"> <img src="/static/img/logo1.png" alt="logo"></a></h1>
-        <li><a href="#">지도</a></li>
-        <li><a href="#">주변</a></li>
-        <li><a href="#">저장</a></li>
-        <li><a href="#">더보기</a></li>
+        <ul class="nav-list">
+            <li>
+                <a href="#"><i class="fa-solid fa-map"></i>지도</a>
+            </li>
+            <li>
+                <a href="#"> <i class="fa-solid fa-location-dot"></i>주변</a>
+            </li>
+            <li>
+                <a href="#"> <i class="fa-solid fa-star"></i>저장</a>
+            </li>
+            <li>
+                <a href="#"> <i class="fa-solid fa-bars"></i>더보기</a>
+            </li>
+        </ul>
     </header>
 
 </body>
