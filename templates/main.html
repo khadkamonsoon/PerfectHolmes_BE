@@ -7,111 +7,211 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <link href="/static/css/main.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/417f8ed01c.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <title>메인 페이지</title>
 
     <style type="text/css">
-
-        header {
+        .sidebar {
             list-style-type: none;
-            background-color: white;
-            width: 80px;
-            padding: 0;
+            background-color: #ffffff;
+            padding: 10px;
             margin:  0;
             height: 100%;
             overflow: auto;
             position: absolute;
-            top: 0;
+            top: 10;
             z-index: 2;
             font-size: 12px;
             z-index: 200;
-        }
+           
     
-        li {
-            text-align: center;
+        }
+
+        .card {
+            margin-bottom: 10px; 
+            background-color: #ffffff;
+            border:none;
         }
         
-        li a {
+        .nav-link {
+            font-size : 16pt; 
+        }
+    
+
+        .card img{
+            width: 290px;
+            height: 190px;
+            margin-bottom: 20px;
+        }
+        .search_bar{
+            width: 500px;
+            border-color:#855b62;
+
+
+        }
+        #place_intro{
+            display:flex;
+        }
+        #place_intro a{
             text-decoration: none;
-            display: block;
-            color: #000;
-            padding: 8px 15px 15px 15px;
-            font-weight: bold;
-            font-size: 15px;
-            display: flex;
-            flex-direction: column; 
-            align-items: center; 
+            margin-top:4px;
+            margin-left: 5px;
+            color:grey;
+        }
+        #category_sel{
+            margin-bottom: 10px;
+        }
+        #search_btn{
+            background:#855b62;
+            color:white;
+            border-color:white;
+        }
+
+
+        #place_intro{
+            display:flex;
+        }
+        #place_intro a{
+            text-decoration: none;
+            margin-top:4px;
+            margin-left: 5px;
+            color:grey;
+        }
+        #category_sel{
+            margin-bottom: 10px;
+        }
+        #search_btn{
+            background:#855b62;
+            color:white;
+            border-color:white;
+        }
+        /* 추가된 스타일 */
+        #map {
+            width: 100%;
+            height: 600px;
+            margin-top: 20px;
+            position: relative; /* 지도와 버튼을 겹쳐서 배치하기 위해 position 속성 추가 */
+        } 
+        #custom-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000; /* 이 값을 더 높게 설정하세요 */
+            background-color: #c32424;
+            padding: 10px 20px;
+            border: 1px solid #d02b2b;
+            border-radius: 5px;
+            cursor: pointer;
         }
         
-        li a i {
-            margin-bottom: 5px; 
-        }
-        
-    
-        li a.job {
-            background-color: #814444;
-            color: #fff;
-        }
-    
-        li a:hover:not(.job) {
-            background-color: #333;
-            color: #fff;
-        }
-
-        img {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            padding-left: 12px;
-        }
-
-        ul.nav-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-    
     </style>
-
+ 
 </head>
 <body>
-    <div id="map"></div>
-
-    <div class="search_wrap ">
-        <div class="search_box"><button type="button" class="button_search">검색</button>
-            <div class="input_box">
-                <label class="label_search">주소 검색</label>
-                <input type="text" id="input_search" class="input_search" autocomplete="off" maxlength="255" value="">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <!-- <a class="navbar-brand" href="#"><img  src="/static/img/logo1.png" alt="logo"></a> -->
+          <a class="navbar-brand" href="#"><img  src="logo.png" style="width:190px;" alt="logo"></a>
+          
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" style = "color: green; " href="#"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" style = "color: blue; " href="#"><i class="fas fa-map-marker-alt"></i> 지도</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style = "color: orange;" href="#"><i class="fas fa-location-arrow"></i> 주변</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-save"></i> 저장</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style = "color: brown;"  href="#"><i class="fas fa-book"></i> 주거지 추천</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> 설정</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> 프로필</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2 search_bar" id="input_search" class="input_search" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-warning button_search" id="search_btn" type="submit" >Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    <div class="sidebar">
+        <div class="side-list">
+            <!-- <select class="form-select" id="category_sel" aria-label="Default select example">
+                <option selected>카페</option>
+                <option value="1">카페</option>
+                <option value="2">편의점</option>
+                <option value="3">식당</option> -->
+              </select>
+            <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                    <div class="col-md-4">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDAyMDhfMTU1%2FMDAxNzA3MzU1NzA0NTIz.Lfj4DJMS9bqkRRXPTXMtDf91yZTuupGt6wO-YbfN47Yg.Lq54OmwRmYGZjhhzTWf4Hm1F5esR5lmsureDZZhLrVUg.JPEG.bdsea1217%2FIMG_7409.jpg&type=f&size=680x360&quality=80&opt=2" alt="이미지">
+                    </div>
+                    <div id="place_intro"><h5 class="card-title">나무숲</h5><a class="card-subtitle">카페</a></div>
+                    <p class="card-text">빙수개커욘</p>
+                </div>
+            </div>
+            <hr>
+            <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                    <div class="col-md-4">
+                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221020_229%2F1666253513669TeKUY_JPEG%2F94E54031-7DD6-4B42-AE98-5511F3224B50.jpeg" alt="이미지">
+                    </div>
+                    <div id="place_intro"><h5 class="card-title">오늘은 왠지</h5><a class="card-subtitle">카페</a></div>
+                    <p class="card-text">커피맛이 너무 고급스러워요, 목대 커피는 owen</p>
+                </div>
+            </div>
+            <hr>
+            <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                    <div class="col-md-4">
+                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210206_250%2F1612575043521ah9D6_JPEG%2FMfZhDYNAK4n0KZPidaoJgc_b.jpg" alt="이미지">
+                    </div>
+                    <div id="place_intro"><h5 class="card-title">메가커피</h5><a class="card-subtitle">카페</a></div>
+                    <p class="card-text">위치도 좋고 커피도 맛있는 이곳, 패스오더 서비스 도입되면 더 자주 방문할거같아요</p>
+                </div>
+            </div>
+            <hr>
+            <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                    <div class="col-md-4">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDAyMDhfMTU1%2FMDAxNzA3MzU1NzA0NTIz.Lfj4DJMS9bqkRRXPTXMtDf91yZTuupGt6wO-YbfN47Yg.Lq54OmwRmYGZjhhzTWf4Hm1F5esR5lmsureDZZhLrVUg.JPEG.bdsea1217%2FIMG_7409.jpg&type=f&size=680x360&quality=80&opt=2" alt="이미지">
+                    </div>
+                    <div id="place_intro"><h5 class="card-title">나무숲</h5><a class="card-subtitle">카페</a></div>
+                    <p class="card-text">빙수개커욘</p>
+                </div>
             </div>
         </div>
+        <hr>
     </div>
-
-    <div class="search">
-        <input id="address" type="text" placeholder="검색할 주소">
-        <input id="submit" type="button" value="주소검색">
-    </div>
+    <!-- <div id="map"></div> -->
+    <div>
+        
+        <!-- <img src="https://velog.velcdn.com/images/jejualrock/post/24df6919-9d2e-4ca8-b729-4d207da7ab52/image.png" style="width:100%"> -->
     
-    <header>
-        <h1 class="logo_box"><a class="logo_box" href="#"> <img src="/static/img/logo1.png" alt="logo"></a></h1>
-        <ul class="nav-list">
-            <li>
-                <a href="#"><i class="fa-solid fa-map"></i>지도</a>
-            </li>
-            <li>
-                <a href="#"> <i class="fa-solid fa-location-dot"></i>주변</a>
-            </li>
-            <li>
-                <a href="#"> <i class="fa-solid fa-star"></i>저장</a>
-            </li>
-            <li>
-                <a href="#"> <i class="fa-solid fa-bars"></i>더보기</a>
-            </li>
-        </ul>
-    </header>
-
+    
+    </div>
+   
+   
 </body>
 <script>
     var map;
@@ -246,4 +346,5 @@
         });
     }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>
