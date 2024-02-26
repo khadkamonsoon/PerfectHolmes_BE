@@ -218,6 +218,9 @@
 
     // 목포를 기본 지도로
     function selectMapList() {
+        if (map) {
+            map.destroy();
+        }
         map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng(34.8026, 126.3898),
             zoom: 14,
@@ -227,6 +230,12 @@
         naver.maps.Event.addListener(map, 'click', function(e) {
             var latlng = e.coord;
             updateMarker(latlng);
+            
+            if (marker) {
+                for(var i = 0; i < marker.length; i++){
+                    marker[i].setMap(null);
+                }
+            }
         });
     }
 
@@ -286,19 +295,19 @@
         sendCoordinatesToServer(latlng.y, latlng.x);
     }
 
+    
     // 마커 업데이트
     function updateMarker(latlng) {
-        if (marker) {
-            marker.setMap(null);
+        // 기존 마커와 반경 초기화
+        if (circle) {
             circle.setMap(null);
         }
-
-        // 새로운 마커 생성
+    
         marker = new naver.maps.Marker({
             map: map,
             position: latlng,
         });
-
+    
         // 반경 생성
         circle = new naver.maps.Circle({
             map: map,
@@ -310,9 +319,10 @@
             strokeOpacity: 0.5,
             strokeWeight: 2,
         });
-
+    
         sendCoordinatesToServer(latlng.y, latlng.x);
     }
+    
 
     // 좌표 전송
     function sendCoordinatesToServer(lat, lng) {
