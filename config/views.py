@@ -11,10 +11,7 @@ def signup(request):
 
 
 def main_page(request):
-    if decodeJWT(request.user):
-        return render(request, "main.html")
-    else : 
-        return render(request, "login.html")
+   return render(request, "main.html")
 
 
 def index_page(request):

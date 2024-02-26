@@ -46,39 +46,47 @@
     function login() {
         let username = $('#username').val();
         let password = $('#password').val();
-
+    
         $.ajax({
-            url: "/auth/login/",
+            url: "/auth/login",
             data: {
                 username: username,
                 password: password,
             },
             method: "POST",
             success: function (data) {
-                console.log(data);
-                location.replace("/");
+                // 로그인 성공 시 토큰을 로컬 스토리지에 저장
+                window.localStorage.setItem("access", data["access"]);
+                alert("로그인에 성공했습니다.");
+                window.location.href="/main";
             },
-            error: function (request, status, error) {
-                console.log(error);
+            error: function (xhr, status, error) {
+                console.error(error);
                 alert("입력하신 정보가 올바르지 않습니다.");
-
-            },
-            complete: function (data) {
-            },
+            }
         });
     }
-
+    
     $('#submit').click(function () {
-        login()
+        login();
     });
-
+    
     $(document).keyup(function (event) {
         if (event.which === 13) {
-            login()
+            login();
         }
     });
-
-
+    
+    // AJAX 요청 전에 토큰을 헤더에 포함시키는 함수
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            let token = window.localStorage.getItem("access");
+            if (token) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+            }
+        }
+    });
+    
 </script>
 </html>
 
