@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from users.utils import decodeJWT
 
 
 def login(request):
@@ -10,4 +11,11 @@ def signup(request):
 
 
 def main_page(request):
-    return render(request, "main.html")
+    if decodeJWT(request.user):
+        return render(request, "main.html")
+    else : 
+        return render(request, "login.html")
+
+
+def index_page(request):
+    return render(request, "index.html")
