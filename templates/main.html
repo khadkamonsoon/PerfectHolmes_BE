@@ -12,92 +12,113 @@
     <title>메인 페이지</title>
 
     <style type="text/css">
+        body {
+            margin: 0;
+        }
+        
+        .navbar {
+            height: 60px;
+        }
+        
         .sidebar {
             list-style-type: none;
             background-color: #ffffff;
             padding: 10px;
-            margin:  0;
-            height: 1000px;
-            overflow: auto;
+            margin: 0;
+            width: 400px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            overflow-x: visible;
             position: absolute;
-            top: 10;
-            z-index: 2;
             font-size: 12px;
             z-index: 200;
-           
-    
+            transition: width 0.5s ease;
         }
-
+        
+        .side-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
         .card {
-            margin-bottom: 10px; 
-            background-color: #ffffff;
-            border:none;
+            width: 303px;
         }
         
         .nav-link {
-            font-size : 16pt; 
+            font-size: 16pt;
         }
-    
-
-        .card img{
-            width: 290px;
+        
+        .card img {
+            width: 270px;
             height: 190px;
             margin-bottom: 20px;
         }
-        .search_bar{
+        
+        .search_bar {
             width: 500px;
-            border-color:#855b62;
-
-
+            border-color: #855b62;
         }
-        #place_intro{
-            display:flex;
+        
+        #place_intro {
+            display: flex;
         }
-        #place_intro a{
+        
+        #place_intro a {
             text-decoration: none;
-            margin-top:4px;
+            margin-top: 4px;
             margin-left: 5px;
-            color:grey;
+            color: grey;
         }
-        #category_sel{
+        
+        #category_sel {
             margin-bottom: 10px;
         }
-        #search_btn{
-            background:#855b62;
-            color:white;
-            border-color:white;
+        
+        #search_btn {
+            background: #855b62;
+            color: white;
+            border-color: white;
         }
-
-
-        #place_intro{
-            display:flex;
+        
+        
+        #place_intro {
+            display: flex;
         }
-        #place_intro a{
+        
+        #place_intro a {
             text-decoration: none;
-            margin-top:4px;
+            margin-top: 4px;
             margin-left: 5px;
-            color:grey;
+            color: grey;
         }
-        #category_sel{
+        
+        #category_sel {
             margin-bottom: 10px;
         }
-        #search_btn{
-            background:#855b62;
-            color:white;
-            border-color:white;
+        
+        #search_btn {
+            background: #855b62;
+            color: white;
+            border-color: white;
         }
+        
         /* 추가된 스타일 */
         #map {
-            width: 1000px;
-            height: 2000px;
-            margin-top: 20px;
-            position: relative; /* 지도와 버튼을 겹쳐서 배치하기 위해 position 속성 추가 */
-        } 
+            width: 100%;
+            height: calc(100vh - 60px);
+            position: relative;
+            /* 지도와 버튼을 겹쳐서 배치하기 위해 position 속성 추가 */
+        }
+        
         #custom-button {
             position: absolute;
             top: 10px;
             right: 10px;
-            z-index: 1000; /* 이 값을 더 높게 설정하세요 */
+            z-index: 1000;
+            /* 이 값을 더 높게 설정하세요 */
             background-color: #c32424;
             padding: 10px 20px;
             border: 1px solid #d02b2b;
@@ -105,117 +126,271 @@
             cursor: pointer;
         }
         
+        #navbarSupportedContent {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        
+            @media (max-width: 992px){
+                display: none;
+            }
+        }
+        
+        .toggle-btn {
+            position: absolute;
+            top: 50%;
+            /* 사이드바의 너비와 같게 설정해야 합니다.
+               사이드바가 접힐 때, 버튼도 같이 이동하기 때문에 
+               버튼의 left 위치를 '400px - 버튼의 너비'로 설정합니다. */
+            left: 400px;
+            z-index: 5000;
+            background-color: white;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid lightgray;
+            border-left: none;
+            color: lightgray;
+            cursor: pointer;
+            transition: left 0.5s ease, transform 0.5s ease;
+            border-radius: 0 4px 4px 0;
+            font-weight: bold;
+        }
+        
+        .toggle-btn:hover {
+            color: lightgray;
+            border: 1px solid lightgray;
+            background-color: white;
+            border-left: none;
+        }
+        
+        .sidebar-collapsed + .toggle-btn {
+            left: 0;
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        
+        .sidebar-collapsed {
+            width: 0;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        
+        .top-bar {
+            position: absolute;
+            left: 400px; /* sidebar 너비만큼 왼쪽에서부터 떨어져 있어야 합니다. */
+            top: 60px; /* navbar 높이만큼 위에서부터 떨어져 있어야 합니다. */
+            width: 500px; /* 전체 너비에서 sidebar 너비를 뺀 만큼의 너비 */
+            height: 50px;
+            margin: 20px;
+            display: flex;
+            justify-content: space-between; /* 내부 아이템 간격을 균등하게 배치 */
+            align-items: center;
+            background-color: white; /* 바의 배경색, 실제 사이트의 색상과 일치해야 합니다. */
+            transition: left 0.5s ease; /* 부드러운 이동을 위한 트랜지션 */
+            z-index: 2000;
+            font-weight: 700;
+            border-radius: 20px;
+            border: 1px solid lightgray;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        }
+        
+        .right-bar {
+            position: absolute;
+            right: 0;
+            top: 60px;
+            width: 80px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            background-color: white;
+            z-index: 2000;
+            font-weight: 700;
+            border-radius: 25px;
+            margin: 10px;
+            border: 1px solid lightgray;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        }
+        
+        .home-img {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 100px;
+            height: 100px;
+            z-index: 6000;
+            object-fit: cover;
+        }
+        
+        .bar-item {
+            padding: 0 10px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .sidebar-collapsed ~ .top-bar {
+            left: 0;
+        }
+        
+        #submit {
+            margin: 0 10px;
+        }
+        
+        .nav-link.dropdown-toggle.more::after {
+            display: none;
+        }
+        
+        .dropdown-menu a {
+            font-weight: 700;
+        }
     </style>
  
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#"><img  src="/static/img/logo1.png" alt="logo"></a>
-          
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" style = "color: green; " href="#"><i class="fas fa-home"></i> Home</a>
+            <a class="navbar-brand" href="#"><img src="/static/img/logo1.png" alt="logo"></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="d-flex justify-content-center" role="search">
+                    <input id="address" class="form-control me-2 search_bar" id="input_search" class="input_search"
+                        type="text" placeholder="Search" aria-label="Search" value="">
+                    <button id="submit" class="btn btn-outline-warning button_search" id="search_btn"
+                        type="button">Search</button>
+                </form>
+                <li class="nav-item dropdown" style="list-style:none; margin-right:50px;">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </a>
+                    <ul class="dropdown-menu" style="z-index: 5000">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> 설정</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> 프로필</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" style = "color: blue; " href="#"><i class="fas fa-map-marker-alt"></i> 지도</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" style = "color: orange;" href="#"><i class="fas fa-location-arrow"></i> 주변</a>
-                </li>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" style = "color: brown;"  href="#"><i class="fas fa-book"></i> 집추천</a>
-                </li>
-                
-            </ul>
-            <form class="d-flex justify-content-center" role="search">
-              <input id="address" class="form-control me-2 search_bar" id="input_search" class="input_search" type="text" placeholder="Search" aria-label="Search" value="">
-              <button id="submit" class="btn btn-outline-warning button_search" id="search_btn" type="button" >Search</button>
-            </form>
-            <li class="nav-item dropdown" style="list-style:none; margin-right:50px;">
-                <a class="nav-link dropdown-toggle"role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-ellipsis-h"></i> 
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> 설정</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> 프로필</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
-                </ul>
-            </li>
-          </div>
+            </div>
         </div>
-      </nav>
+    </nav>
+    <button id="toggle-sidebar" class="btn toggle-btn">></button>
+
     <div class="sidebar">
         <div class="side-list">
-            <!-- <select class="form-select" id="category_sel" aria-label="Default select example">
-                <option selected>카페</option>
-                <option value="1">카페</option>
-                <option value="2">편의점</option>
-                <option value="3">식당</option> -->
-              </select>
-            <div class="card" style="width: 20rem;">
+            <div class="card">
                 <div class="card-body">
                     <div class="col-md-4">
-                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDAyMDhfMTU1%2FMDAxNzA3MzU1NzA0NTIz.Lfj4DJMS9bqkRRXPTXMtDf91yZTuupGt6wO-YbfN47Yg.Lq54OmwRmYGZjhhzTWf4Hm1F5esR5lmsureDZZhLrVUg.JPEG.bdsea1217%2FIMG_7409.jpg&type=f&size=680x360&quality=80&opt=2" alt="이미지">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDAyMDhfMTU1%2FMDAxNzA3MzU1NzA0NTIz.Lfj4DJMS9bqkRRXPTXMtDf91yZTuupGt6wO-YbfN47Yg.Lq54OmwRmYGZjhhzTWf4Hm1F5esR5lmsureDZZhLrVUg.JPEG.bdsea1217%2FIMG_7409.jpg&type=f&size=680x360&quality=80&opt=2"
+                            alt="이미지">
                     </div>
-                    <div id="place_intro"><h5 class="card-title">나무숲</h5><a class="card-subtitle">카페</a></div>
+                    <div id="place_intro">
+                        <h5 class="card-title">나무숲</h5><a class="card-subtitle">카페</a>
+                    </div>
                     <p class="card-text">빙수개커욘</p>
                 </div>
             </div>
             <hr>
-            <div class="card" style="width: 20rem;">
+            <div class="card">
                 <div class="card-body">
                     <div class="col-md-4">
-                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221020_229%2F1666253513669TeKUY_JPEG%2F94E54031-7DD6-4B42-AE98-5511F3224B50.jpeg" alt="이미지">
+                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221020_229%2F1666253513669TeKUY_JPEG%2F94E54031-7DD6-4B42-AE98-5511F3224B50.jpeg"
+                            alt="이미지">
                     </div>
-                    <div id="place_intro"><h5 class="card-title">오늘은 왠지</h5><a class="card-subtitle">카페</a></div>
+                    <div id="place_intro">
+                        <h5 class="card-title">오늘은 왠지</h5><a class="card-subtitle">카페</a>
+                    </div>
                     <p class="card-text">커피맛이 너무 고급스러워요, 목대 커피는 owen</p>
                 </div>
             </div>
             <hr>
-            <div class="card" style="width: 20rem;">
+            <div class="card">
                 <div class="card-body">
                     <div class="col-md-4">
-                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210206_250%2F1612575043521ah9D6_JPEG%2FMfZhDYNAK4n0KZPidaoJgc_b.jpg" alt="이미지">
+                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210206_250%2F1612575043521ah9D6_JPEG%2FMfZhDYNAK4n0KZPidaoJgc_b.jpg"
+                            alt="이미지">
                     </div>
-                    <div id="place_intro"><h5 class="card-title">메가커피</h5><a class="card-subtitle">카페</a></div>
+                    <div id="place_intro">
+                        <h5 class="card-title">메가커피</h5><a class="card-subtitle">카페</a>
+                    </div>
                     <p class="card-text">위치도 좋고 커피도 맛있는 이곳, 패스오더 서비스 도입되면 더 자주 방문할거같아요</p>
                 </div>
             </div>
             <hr>
-            <div class="card" style="width: 20rem;">
+            <div class="card">
                 <div class="card-body">
                     <div class="col-md-4">
-                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDAyMDhfMTU1%2FMDAxNzA3MzU1NzA0NTIz.Lfj4DJMS9bqkRRXPTXMtDf91yZTuupGt6wO-YbfN47Yg.Lq54OmwRmYGZjhhzTWf4Hm1F5esR5lmsureDZZhLrVUg.JPEG.bdsea1217%2FIMG_7409.jpg&type=f&size=680x360&quality=80&opt=2" alt="이미지">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDAyMDhfMTU1%2FMDAxNzA3MzU1NzA0NTIz.Lfj4DJMS9bqkRRXPTXMtDf91yZTuupGt6wO-YbfN47Yg.Lq54OmwRmYGZjhhzTWf4Hm1F5esR5lmsureDZZhLrVUg.JPEG.bdsea1217%2FIMG_7409.jpg&type=f&size=680x360&quality=80&opt=2"
+                            alt="이미지">
                     </div>
-                    <div id="place_intro"><h5 class="card-title">나무숲</h5><a class="card-subtitle">카페</a></div>
+                    <div id="place_intro">
+                        <h5 class="card-title">나무숲</h5><a class="card-subtitle">카페</a>
+                    </div>
                     <p class="card-text">빙수개커욘</p>
                 </div>
             </div>
         </div>
         <hr>
     </div>
-    <div id="map" style="width:100%; height:700px;"></div>
-    <!-- <div>
-       <img src="https://velog.velcdn.com/images/jejualrock/post/24df6919-9d2e-4ca8-b729-4d207da7ab52/image.png" style="width:100%"> 
-    
-    </div> -->
+
+    <div class="top-bar">
+        <div class="bar-item">🍴음식점</div>
+        <div class="bar-item">🍵카페</div>
+        <div class="bar-item">🛏️펜션</div>
+        <div class="bar-item">🚘주차장</div>
+        <div class="bar-item">🏷️쿠폰</div>
+        <li class="bar-item" style="list-style:none">
+            <a class="nav-link dropdown-toggle more" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-ellipsis-h"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">✂️헤어샵</a></li>
+                <li><a class="dropdown-item" href="#">⛺캠핑장</a></li>
+                <li><a class="dropdown-item" href="#">⛽주유소</a></li>
+                <li><a class="dropdown-item" href="#">💰은행</a></li>
+                <li><a class="dropdown-item" href="#">💊약국</a></li>
+                <li><a class="dropdown-item" href="#">🏥병원</a></li>
+                <li><a class="dropdown-item" href="#">🏨호텔</a></li>
+                <li><a class="dropdown-item" href="#">🏩모텔</a></li>
+            </ul>
+        </li>
+    </div>
+
+    <div class="right-bar">
+        <div class="bar-item">재난⛑️</div>
+        <div class="bar-item">치안🚨</div>
+        <div class="bar-item">교통🛣️</div>
+        <div class="bar-item">보건🚑</div>
+        <div class="bar-item">생활🤹‍♂️</div>
+        <div class="bar-item">시설🏢</div>
+    </div>
+
+    <div class="searh-bar">
    
-   
+    </div>
+
+    <img class="home-img" src="/static/img/home.png">
+
+    <div id="map"></div>
 </body>
-<script>
+
+<script>  
     var map;
     var circle;
     var marker;
     var facilityMarkers = []; // 기존 마커들을 담는 배열
     var clickedMarker;
-
+    
     // 목포를 기본 지도로
     function selectMapList() {
         if (map) {
@@ -225,36 +400,36 @@
             center: new naver.maps.LatLng(34.8026, 126.3898),
             zoom: 14,
         });
-
+    
         // 지도를 클릭했을 때 이벤트 등록
-        naver.maps.Event.addListener(map, 'click', function(e) {
+        naver.maps.Event.addListener(map, 'click', function (e) {
             var latlng = e.coord;
             updateMarker(latlng);
-            
+    
             removeFacilityMarkers();
             clickedMarker = null;
         });
     }
-
+    
     // 지도를 그려주는 함수
     selectMapList();
-
+    
     // 검색한 주소의 정보를 insertAddress 함수로
     function searchAddressToCoordinate(address) {
         naver.maps.Service.geocode({
             query: address
-        }, function(status, response) {
+        }, function (status, response) {
             if (status === naver.maps.Service.Status.ERROR) {
                 return alert('Something Wrong!');
             }
             if (response.v2.meta.totalCount === 0) {
                 return alert('올바른 주소를 입력해주세요.');
             }
-
+    
             var htmlAddresses = [],
                 item = response.v2.addresses[0],
                 latlng = new naver.maps.LatLng(item.y, item.x);
-
+    
             if (item.roadAddress) {
                 htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
             }
@@ -264,26 +439,26 @@
             if (item.englishAddress) {
                 htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
             }
-
+    
             insertAddress(item.roadAddress, latlng);
         });
     }
-
+    
     // 주소 검색 버튼 이벤트
-    $('#address').on('keydown', function(e) {
+    $('#address').on('keydown', function (e) {
         var keyCode = e.which;
         if (keyCode === 13) {
             searchAddressToCoordinate($('#address').val());
         }
     });
-    $('#submit').on('click', function(e) {
+    $('#submit').on('click', function (e) {
         e.preventDefault();
         console.log("test");
         searchAddressToCoordinate($('#address').val());
     });
-
+    
     naver.maps.onJSContentLoaded = selectMapList;
-
+    
     // 검색한 주소 지도에 마커 표시
     function insertAddress(address, latlng) {
         updateMarker(latlng);
@@ -291,7 +466,7 @@
         map.setZoom(15);
         sendCoordinatesToServer(latlng.y, latlng.x);
     }
-
+    
     
     // 마커 업데이트
     function updateMarker(latlng) {
@@ -299,7 +474,7 @@
         if (circle) {
             circle.setMap(null);
         }
-
+    
         if (marker) {
             marker.setMap(null);
         }
@@ -324,7 +499,6 @@
         sendCoordinatesToServer(latlng.y, latlng.x);
     }
     
-
     // 좌표 전송
     function sendCoordinatesToServer(lat, lng) {
         $.ajax({
@@ -335,8 +509,8 @@
                 lng: lng
             },
             success: function (response) {
-                 // 기존 마커들 제거
-                 removeFacilityMarkers();
+                // 기존 마커들 제거
+                removeFacilityMarkers();
                 if (Array.isArray(response) && response.length > 0) {
                     for (var i = 0; i < response.length; i++) {
                         var facility = response[i];
@@ -359,13 +533,35 @@
             }
         });
     }
-     // 기존 마커들을 모두 제거하는 함수
-     function removeFacilityMarkers() {
+
+    // 기존 마커들을 모두 제거하는 함수
+    function removeFacilityMarkers() {
         for (var i = 0; i < facilityMarkers.length; i++) {
             facilityMarkers[i].setMap(null);
         }
         facilityMarkers = [];
     }
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        var sidebar = document.querySelector('.sidebar');
+        var toggleButton = document.querySelector('.toggle-btn');
+        
+        toggleButton.addEventListener('click', function () {
+            // 사이드바의 상태를 토글합니다.
+            sidebar.classList.toggle('sidebar-collapsed');
+            
+            // 사이드바가 접힌 상태면 버튼도 왼쪽으로 이동합니다.
+            if (sidebar.classList.contains('sidebar-collapsed')) {
+                toggleButton.style.left = '0px'; // 버튼을 왼쪽으로 이동시킵니다.
+                toggleButton.textContent = '<'; // 버튼의 텍스트를 변경합니다.
+            } else {
+                toggleButton.style.left = '400px'; // 버튼을 원래 위치로 되돌립니다.
+                toggleButton.textContent = '>';
+            }
+        });
+    });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
 </html>
