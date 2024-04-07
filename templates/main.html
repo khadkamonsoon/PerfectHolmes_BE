@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2yf3rqafqw&submodules=geocoder"></script>
+    <script type="text/javascript"
+        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2yf3rqafqw&submodules=geocoder"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <link href="/static/css/main.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/417f8ed01c.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <title>메인 페이지</title>
 
@@ -15,18 +18,22 @@
         body {
             margin: 0;
         }
-        
+
+        div {
+            box-sizing: border-box;
+        }
+
         .navbar {
             height: 60px;
         }
-        
+
         .sidebar {
             list-style-type: none;
             background-color: #ffffff;
             padding: 10px;
             margin: 0;
             width: 400px;
-            height: calc(100vh - 60px);
+            height: 100vh;
             overflow-y: auto;
             overflow-x: visible;
             position: absolute;
@@ -34,7 +41,7 @@
             z-index: 200;
             transition: width 0.5s ease;
         }
-        
+
         .side-list {
             width: 100%;
             display: flex;
@@ -42,20 +49,21 @@
             justify-content: center;
             align-items: center;
         }
-        
+
         .card {
             width: 303px;
         }
-        
+
         .nav-link {
             font-size: 16pt;
         }
-        
+
         .card img {
             width: 270px;
             height: 190px;
             margin-bottom: 20px;
         }
+
         /*
         .search_bar {
             width: 500px;
@@ -107,11 +115,11 @@
          */
         #map {
             width: 100%;
-            height: calc(100vh - 60px);
+            height: 100vh;
             position: relative;
             /* 지도와 버튼을 겹쳐서 배치하기 위해 position 속성 추가 */
         }
-        
+
         #custom-button {
             position: absolute;
             top: 10px;
@@ -124,17 +132,17 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        
+
         #navbarSupportedContent {
             display: flex;
             justify-content: center;
             align-items: center;
-        
-            @media (max-width: 992px){
+
+            @media (max-width: 992px) {
                 display: none;
             }
         }
-        
+
         .toggle-btn {
             position: absolute;
             top: 50%;
@@ -158,59 +166,69 @@
             border-radius: 0 4px 4px 0;
             font-weight: bold;
         }
-        
+
         .toggle-btn:hover {
             color: lightgray;
             border: 1px solid lightgray;
             background-color: white;
             border-left: none;
         }
-        
-        .sidebar-collapsed + .toggle-btn {
+
+        .sidebar-collapsed+.toggle-btn {
             left: 0;
             transform: translateY(-50%) rotate(180deg);
         }
-        
-        
+
+
         .sidebar-collapsed {
             width: 0;
             padding-left: 0;
             padding-right: 0;
         }
-        
+
         .top-bar {
             position: absolute;
-            left: 400px; /* sidebar 너비만큼 왼쪽에서부터 떨어져 있어야 합니다. */
-            top: 5px; /* navbar 높이만큼 위에서부터 떨어져 있어야 합니다. */
-            width: 410px; /* 전체 너비에서 sidebar 너비를 뺀 만큼의 너비 */
+            left: 400px;
+            /* sidebar 너비만큼 왼쪽에서부터 떨어져 있어야 합니다. */
+            top: 5px;
+            /* navbar 높이만큼 위에서부터 떨어져 있어야 합니다. */
+            width: 410px;
+            /* 전체 너비에서 sidebar 너비를 뺀 만큼의 너비 */
             height: 50px;
             margin: 20px;
             display: flex;
-            justify-content: space-between; /* 내부 아이템 간격을 균등하게 배치 */
+            justify-content: space-between;
+            /* 내부 아이템 간격을 균등하게 배치 */
             align-items: center;
-            background-color: white; /* 바의 배경색, 실제 사이트의 색상과 일치해야 합니다. */
-            transition: left 0.5s ease; /* 부드러운 이동을 위한 트랜지션 */
+            background-color: white;
+            /* 바의 배경색, 실제 사이트의 색상과 일치해야 합니다. */
+            transition: left 0.5s ease;
+            /* 부드러운 이동을 위한 트랜지션 */
             z-index: 2000;
             font-weight: 700;
             border-radius: 20px;
             border: 1px solid lightgray;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
         }
 
         .ai-bar {
-            width: 400px; /* 전체 너비에서 sidebar 너비를 뺀 만큼의 너비 */
+            width: 400px;
+            /* 전체 너비에서 sidebar 너비를 뺀 만큼의 너비 */
             height: 45px;
             margin: 20px;
             display: flex;
-            justify-content: space-between; /* 내부 아이템 간격을 균등하게 배치 */
+            justify-content: space-between;
+            /* 내부 아이템 간격을 균등하게 배치 */
             align-items: center;
-            background-color: white; /* 바의 배경색, 실제 사이트의 색상과 일치해야 합니다. */
-            transition: left 0.5s ease; /* 부드러운 이동을 위한 트랜지션 */
+            background-color: white;
+            /* 바의 배경색, 실제 사이트의 색상과 일치해야 합니다. */
+            transition: left 0.5s ease;
+            /* 부드러운 이동을 위한 트랜지션 */
             z-index: 2000;
             font-weight: 700;
             border-radius: 40px;
             border: 1px solid lightgray;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
             padding: 10px;
             position: fixed;
             bottom: 20px;
@@ -226,7 +244,7 @@
             float: left;
             padding: 0px;
             color: black;
-            font-size:  12px;
+            font-size: 12px;
             line-height: 30px;
             width: 100%;
             height: 100%;
@@ -260,7 +278,7 @@
             border-radius: 25px;
             margin: 10px;
             border: 1px solid lightgray;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
         }
 
         .search-bar {
@@ -279,9 +297,9 @@
             border-radius: 20px;
             margin: 10px;
             border: 1px solid lightgray;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
         }
-        
+
         .home-img {
             position: absolute;
             right: 0;
@@ -291,31 +309,178 @@
             z-index: 6000;
             object-fit: cover;
         }
-        
+
         .bar-item {
             padding: 0 10px;
             cursor: pointer;
             white-space: nowrap;
         }
-        
-        .sidebar-collapsed ~ .top-bar {
+
+        .sidebar-collapsed~.top-bar {
             left: 0;
         }
-        
+
         #submit {
             margin: 0 10px;
         }
-        
+
         .nav-link.dropdown-toggle.more::after {
             display: none;
         }
-        
+
         .dropdown-menu a {
             font-weight: 700;
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            width: 960px;
+            height: 600px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+            overflow-y: scroll;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+        }
+
+        .close {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            cursor: pointer;
+            font-size: 30px;
+            top: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .category-container {
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .category {
+            font-size: 18px;
+            width: 160px;
+            height: 40px;
+            padding: 13px;
+            border-radius: 10px;
+            box-shadow: 0 0 2px black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .category[data-category="medical"]:hover {
+            background-color: #abf7b1;
+        }
+
+        .category[data-category="education"]:hover {
+            background-color: #fcfcdc;
+        }
+
+        .category[data-category="facilities"]:hover {
+            background-color: lightskyblue;
+        }
+
+        .category[data-category="residential"]:hover {
+            background-color: lightcoral;
+        }
+
+        .category[data-category="leisure"]:hover {
+            background-color: thistle;
+        }
+
+        .detail-container {
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .detail {
+            font-size: 18px;
+            width: 160px;
+            height: 40px;
+            padding: 13px;
+            box-shadow: 0 0 2px black;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .selected-detail-container {
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .selected-detail-item {
+            position: relative;
+            font-size: 14px;
+            width: 130px;
+            height: 30px;
+            padding: 13px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .apply {
+            position: fixed;
+            bottom: calc(58vh - 248px);
+            right: calc(51vw - 440px);
+            border-radius: 5px;
+            border: none;
+            padding: 5px 25px;
+            box-shadow: 0 0 3px black;
+            z-index: 1050; 
+        }
+
     </style>
- 
+
 </head>
+
 <body>
     <button id="toggle-sidebar" class="btn toggle-btn">></button>
 
@@ -413,21 +578,148 @@
     </div>
 
     <div class="search-bar">
-        <div class="bar-item">🔍</div>
+        <div class="bar-item" id="openModal">🔍</div>
     </div>
 
     <!-- <img class="home-img" src="/static/img/home.png"> -->
 
+    <div id="myModal" class="modal">
+        <button class="apply">적용</button>
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="category-container">
+                <p style="width: 100%; text-align: start; padding: 0 20px;">원하는 주거항목을 선택해주세요.</p>
+                <p style="width: 100%; text-align: start; padding: 0 20px; font-size: 13px; color: grey">(중복 적용이 가능합니다)
+                </p>
+                <div id="medical" class="category" data-category="medical">의료</div>
+                <div id="education" class="category" data-category="education">학군/교육</div>
+                <div id="facilities" class="category" data-category="facilities">시설</div>
+                <div id="residential" class="category" data-category="residential">거주</div>
+                <div id="leisure" class="category" data-category="leisure">여가</div>
+            </div>
+            <p style="font-size: 25px">⬇️</p>
+            <div id="details-medical" class="detail-container" style="display:none;">
+                <p style="width: 100%; text-align: start; padding: 0 20px;"><span style="color: #abf7b1;">● </span>
+                    의료
+                </p>
+                <p style="width: 100%; text-align: start; padding: 0 20px; font-size: 13px; color: grey">원하는 조건을 골라
+                    세부항목을
+                    선택해주세요.</p>
+                <div class="detail">약국</div>
+                <div class="detail">내과</div>
+                <div class="detail">외과</div>
+                <div class="detail">종합병원</div>
+                <div class="detail">피부과</div>
+                <div class="detail">치과</div>
+                <div class="detail">보건소</div>
+                <div class="detail">산부의과</div>
+                <div class="detail">비뇨기과</div>
+                <div class="detail">한의원</div>
+            </div>
+            <div id="details-education" class="detail-container" style="display:none;">
+                <p style="width: 100%; text-align: start; padding: 0 20px;"><span style="color: #fcfcdc;">●
+                    </span>교육
+                </p>
+                <p style="width: 100%; text-align: start; padding: 0 20px; font-size: 13px; color: grey">원하는 조건을 골라
+                    세부항목을
+                    선택해주세요.</p>
+                <div class="detail">유치원</div>
+                <div class="detail">어린이집</div>
+                <div class="detail">초등학교</div>
+                <div class="detail">중학교</div>
+                <div class="detail">고등학교</div>
+                <div class="detail">대학교</div>
+            </div>
+            <div id="details-facilities" class="detail-container" style="display:none;">
+                <p style="width: 100%; text-align: start; padding: 0 20px;"><span style="color: lightskyblue;">●
+                    </span>시설
+                </p>
+                <p style="width: 100%; text-align: start; padding: 0 20px; font-size: 13px; color: grey">원하는 조건을 골라
+                    세부항목을
+                    선택해주세요.</p>
+                <div class="detail">공원</div>
+                <div class="detail">은행</div>
+                <div class="detail">주민센터</div>
+                <div class="detail">아동복지센터</div>
+                <div class="detail">경로당</div>
+                <div class="detail">요양원</div>
+                <div class="detail">경찰</div>
+                <div class="detail">마트</div>
+                <div class="detail">대형마트</div>
+                <div class="detail">전기차 충전소</div>
+            </div>
+            <div id="details-residential" class="detail-container" style="display:none;">
+                <p style="width: 100%; text-align: start; padding: 0 20px; margin: 10px 0"><span style="color: lightcoral;">● </span>거주 → 방 개수
+                </p>
+                <p style="width: 100%; text-align: start; padding: 0 20px; font-size: 13px; color: grey">방 개수를 선택해주세요.<br>(5개까지 선택 가능합니다.)</p>
+                <div class="detail">1개</div>
+                <div class="detail">2개</div>
+                <div class="detail">3개</div>
+                <div class="detail">4개</div>
+                <div class="detail">5개 이상</div>
+                <p style="width: 100%; text-align: start; padding: 0 20px; margin: 10px 0"><span style="color: lightcoral;">● </span>거주 → 평수
+                </p>
+                <p style="width: 100%; text-align: start; padding: 0 20px; font-size: 13px; color: grey">평수를 선택해주세요.<br>(5개까지 선택 가능합니다.)</p>
+                <div class="detail">10평대</div>
+                <div class="detail">20평대</div>
+                <div class="detail">30평대</div>
+                <div class="detail">40평대</div>
+                <div class="detail">50평대 이상</div>
+                <p style="width: 100%; text-align: start; padding: 0 20px; margin: 10px 0"><span style="color: lightcoral;">● </span>거주 → 준공 년도
+                </p>
+                <p style="width: 100%; text-align: start; padding: 0 20px; font-size: 13px; color: grey">준공 년도를 선택해주세요.<br>(5개까지 선택 가능합니다.)</p>
+                <div class="detail">5년 이내</div>
+                <div class="detail">10년 이내</div>
+                <div class="detail">15년 이내</div>
+                <div class="detail">20년 이내</div>
+                <div class="detail">25년 이상</div>
+                <p style="width: 100%; text-align: start; padding: 0 20px; margin: 10px 0"><span style="color: lightcoral;">● </span>거주 → 세대 수
+                </p>
+                <p style="width: 100%; text-align: start; padding: 0 20px; font-size: 13px; color: grey">세대 수를 선택해주세요.<br>(3개까지 선택 가능합니다.)</p>
+                <div class="detail">200세대 이상</div>
+                <div class="detail">500세대 이상</div>
+                <div class="detail">1000세대 이상</div>
+                <p style="width: 100%; text-align: start; padding: 0 20px; margin: 10px 0"><span style="color: lightcoral;">● </span>거주 → 가격
+                </p>
+                <p style="width: 100%; text-align: start; padding: 0 20px; font-size: 13px; color: grey">가격을 선택해주세요.<br>(5개까지 선택 가능합니다.)</p>
+                <div class="detail">1억 이하</div>
+                <div class="detail">2억 이하</div>
+                <div class="detail">3억 이하</div>
+                <div class="detail">4억 이하</div>
+                <div class="detail">4억 이상</div>
+            </div>
+            <div id="details-leisure" class="detail-container" style="display:none;">
+                <p style="width: 100%; text-align: start; padding: 0 20px;"><span style="color: thistle;">● </span>여가
+                </p>
+                <p style="width: 100%; text-align: start; padding: 0 20px; font-size: 13px; color: grey">원하는 조건을 골라
+                    세부항목을
+                    선택해주세요.</p>
+                <div class="detail">영화관</div>
+                <div class="detail">미술관</div>
+                <div class="detail">체육관</div>
+                <div class="detail">헬스장</div>
+                <div class="detail">골프장</div>
+                <div class="detail">볼링장</div>
+                <div class="detail">공공체육시설</div>
+            </div>
+            <p id="arrow" style="font-size: 25px; display: none">⬇️</p>
+            <p id="perfecthomes" style="width: 100%; text-align: start; padding: 0 20px; margin: 0; display: none">🏠
+                퍼펙트 홈즈</p>
+            <div id="selected-details" class="selected-detail-container">
+            </div>
+        </div>
+    </div>
+
     <div id="map"></div>
 </body>
 
-<script>  
+<script>
     var map;
     var circle;
     var marker;
     var facilityMarkers = []; // 기존 마커들을 담는 배열
     var clickedMarker;
-    
+
     // 목포를 기본 지도로
     function selectMapList() {
         if (map) {
@@ -437,20 +729,20 @@
             center: new naver.maps.LatLng(34.8026, 126.3898),
             zoom: 14,
         });
-    
+
         // 지도를 클릭했을 때 이벤트 등록
         naver.maps.Event.addListener(map, 'click', function (e) {
             var latlng = e.coord;
             updateMarker(latlng);
-    
+
             removeFacilityMarkers();
             clickedMarker = null;
         });
     }
-    
+
     // 지도를 그려주는 함수
     selectMapList();
-    
+
     // 검색한 주소의 정보를 insertAddress 함수로
     function searchAddressToCoordinate(address) {
         naver.maps.Service.geocode({
@@ -462,11 +754,11 @@
             if (response.v2.meta.totalCount === 0) {
                 return alert('올바른 주소를 입력해주세요.');
             }
-    
+
             var htmlAddresses = [],
                 item = response.v2.addresses[0],
                 latlng = new naver.maps.LatLng(item.y, item.x);
-    
+
             if (item.roadAddress) {
                 htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
             }
@@ -476,11 +768,11 @@
             if (item.englishAddress) {
                 htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
             }
-    
+
             insertAddress(item.roadAddress, latlng);
         });
     }
-    
+
     // 주소 검색 버튼 이벤트
     $('#address').on('keydown', function (e) {
         var keyCode = e.which;
@@ -493,9 +785,9 @@
         console.log("test");
         searchAddressToCoordinate($('#address').val());
     });
-    
+
     naver.maps.onJSContentLoaded = selectMapList;
-    
+
     // 검색한 주소 지도에 마커 표시
     function insertAddress(address, latlng) {
         updateMarker(latlng);
@@ -503,24 +795,24 @@
         map.setZoom(15);
         sendCoordinatesToServer(latlng.y, latlng.x);
     }
-    
-    
+
+
     // 마커 업데이트
     function updateMarker(latlng) {
         // 기존 마커와 반경 초기화
         if (circle) {
             circle.setMap(null);
         }
-    
+
         if (marker) {
             marker.setMap(null);
         }
-    
+
         marker = new naver.maps.Marker({
             map: map,
             position: latlng,
         });
-    
+
         // 반경 생성
         circle = new naver.maps.Circle({
             map: map,
@@ -532,10 +824,10 @@
             strokeOpacity: 0.5,
             strokeWeight: 2,
         });
-    
+
         sendCoordinatesToServer(latlng.y, latlng.x);
     }
-    
+
     // 좌표 전송
     function sendCoordinatesToServer(lat, lng) {
         $.ajax({
@@ -578,15 +870,15 @@
         }
         facilityMarkers = [];
     }
-    
+
     document.addEventListener('DOMContentLoaded', function () {
         var sidebar = document.querySelector('.sidebar');
         var toggleButton = document.querySelector('.toggle-btn');
-        
+
         toggleButton.addEventListener('click', function () {
             // 사이드바의 상태를 토글합니다.
             sidebar.classList.toggle('sidebar-collapsed');
-            
+
             // 사이드바가 접힌 상태면 버튼도 왼쪽으로 이동합니다.
             if (sidebar.classList.contains('sidebar-collapsed')) {
                 toggleButton.style.left = '0px'; // 버튼을 왼쪽으로 이동시킵니다.
@@ -598,8 +890,117 @@
         });
     });
 
+    var modal = document.getElementById("myModal");
+
+    var btn = document.getElementById("openModal");
+
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var categoryColors = {
+            "medical": "#abf7b1",
+            "education": "#fcfcdc",
+            "facilities": "lightskyblue",
+            "residential": "lightcoral",
+            "leisure": "thistle"
+        };
+
+        document.querySelectorAll('.category').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var category = this.getAttribute('data-category');
+                var detailsId = 'details-' + category;
+                var arrow = document.getElementById('arrow');
+                var categoryButton = document.getElementById(category);
+
+                document.querySelectorAll('.category').forEach(function (category) {
+                    category.style.backgroundColor = '';
+                });
+
+                categoryButton.style.backgroundColor = categoryColors[category];
+
+                document.querySelectorAll('.detail-container').forEach(function (container) {
+                    container.style.display = 'none';
+                });
+
+                var detailsContainer = document.getElementById(detailsId);
+                detailsContainer.style.display = 'flex';
+                arrow.style.display = detailsContainer.style.display === 'flex' ? 'block' : 'none';
+
+                detailsContainer.querySelectorAll('.detail').forEach(function (detail) {
+                    detail.removeEventListener('click', handleDetailClick);
+
+                    detail.addEventListener('click', handleDetailClick);
+                });
+            });
+        });
+
+        function handleDetailClick() {
+            var detailText = this.textContent.trim();
+            var isDuplicate = Array.from(document.querySelectorAll('#selected-details .selected-detail-item'))
+                .some(function (item) { return item.textContent.trim().indexOf(detailText) > -1; });
+            var perfecthomes = document.getElementById('perfecthomes');
+            perfecthomes.style.display = 'block';
+
+            if (!isDuplicate) {
+                addSelectedDetail(this.textContent.trim(), this.parentNode.getAttribute('id').replace('details-', ''));
+            }
+        }
+
+        function addSelectedDetail(detailText, category) {
+            var detailEl = document.createElement('div');
+            detailEl.classList.add('selected-detail-item');
+            detailEl.textContent = detailText;
+            detailEl.style.backgroundColor = categoryColors[category];
+            var removeBtn = document.createElement('span');
+            removeBtn.textContent = '×';
+            removeBtn.onclick = function () {
+                detailEl.remove();
+            };
+            removeBtn.style.cursor = 'pointer';
+            removeBtn.style.marginLeft = '10px';
+            detailEl.appendChild(removeBtn);
+
+            document.getElementById('selected-details').appendChild(detailEl);
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+
+            document.querySelectorAll('.category').forEach(function (category) {
+                category.style.backgroundColor = '';
+            });
+
+            var selectedDetailsContainer = document.getElementById('selected-details');
+            selectedDetailsContainer.innerHTML = '';
+
+            var detailContainers = document.querySelectorAll('.detail-container');
+            detailContainers.forEach(function (container) {
+                container.style.display = 'none';
+            });
+
+            var arrow = document.getElementById('arrow');
+            arrow.style.display = 'none';
+
+            var perfecthomes = document.getElementById('perfecthomes');
+            perfecthomes.style.display = 'none';
+        };
+    });
+
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
+
 </html>
