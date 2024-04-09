@@ -10,6 +10,7 @@ class Facility(CommonModel):
         elementary_school = ("초등학교", "초등학교")
         middle_school = ("중학교", "중학교")
         high_school = ("고등학교", "고등학교")
+        center = ("주민센터", "주민센터")
 
     name = models.CharField(max_length=100, help_text="시설명")
     address = models.CharField(max_length=300, help_text="주소")
