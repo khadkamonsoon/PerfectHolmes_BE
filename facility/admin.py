@@ -1,3 +1,15 @@
 from django.contrib import admin
+from .models import Facility
 
-# Register your models here.
+
+@admin.register(Facility)
+class FacilityAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "address",
+        "type",
+        "lat",
+        "lng",
+    )
+    list_filter = ("type",)
+    search_fields = ("name",)
