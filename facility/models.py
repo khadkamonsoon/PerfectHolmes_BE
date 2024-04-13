@@ -12,6 +12,7 @@ class Facility(CommonModel):
         high_school = ("고등학교", "고등학교")
         center = ("주민센터", "주민센터")
         hospital = ("병원", "병원")
+        pharmacy = ("약국", "약국")
 
     name = models.CharField(max_length=100, help_text="시설명")
     address = models.CharField(max_length=300, help_text="주소")
