@@ -190,7 +190,7 @@
             position: absolute;
             left: 400px;
             top: 5px;
-            width: 410px;
+            width: 370px;
             height: 50px;
             margin: 20px;
             display: flex;
@@ -203,6 +203,7 @@
             border-radius: 20px;
             border: 1px solid lightgray;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+            padding: 20px;
         }
 
         .ai-bar {
@@ -259,9 +260,10 @@
         .right-bar {
             position: absolute;
             right: 0;
-            top: 60px;
+            top: 80px;
             width: 80px;
-            height: 400px;
+            padding: 3px;
+            height: 260px;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -278,7 +280,7 @@
         .search-bar {
             position: absolute;
             right: 0;
-            top: 470px;
+            top: 17px;
             width: 80px;
             height: 40px;
             display: flex;
@@ -536,25 +538,10 @@
     </div>
 
     <div class="top-bar">
-        <div class="bar-item">🔥핫플</div>
         <div class="bar-item">🚏정류장</div>
-        <div class="bar-item">🏫학원</div>
+        <div class="bar-item">🏫학교</div>
         <div class="bar-item">🏪편의점</div>
-        <li class="bar-item" style="list-style:none">
-            <a class="nav-link dropdown-toggle more" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-ellipsis-h"></i>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">✂️헤어샵</a></li>
-                <li><a class="dropdown-item" href="#">⛺캠핑장</a></li>
-                <li><a class="dropdown-item" href="#">⛽주유소</a></li>
-                <li><a class="dropdown-item" href="#">💰은행</a></li>
-                <li><a class="dropdown-item" href="#">💊약국</a></li>
-                <li><a class="dropdown-item" href="#">🏥병원</a></li>
-                <li><a class="dropdown-item" href="#">🏨호텔</a></li>
-                <li><a class="dropdown-item" href="#">🏩모텔</a></li>
-            </ul>
-        </li>
+        <div class="bar-item">🍴식당</div>
     </div>
 
     <form class="ai-bar" action="" method="get">
@@ -562,18 +549,18 @@
         <button id="ai-btn" class="ai-btn" type="submit">🤖</button>
     </form>
 
-    <div class="right-bar">
-        <div class="bar-item">재난⛑️</div>
-        <div class="bar-item">치안🚨</div>
-        <div class="bar-item">교통🛣️</div>
-        <div class="bar-item">보건🚑</div>
-        <div class="bar-item">생활🤹‍♂️</div>
-        <div class="bar-item">시설🏢</div>
-    </div>
-
     <div class="search-bar">
         <div class="bar-item" id="openModal">🔍</div>
     </div>
+
+    <div class="right-bar">
+        <div class="bar-item">교육🏫</div>
+        <div class="bar-item">의료🚑</div>
+        <div class="bar-item">여가🤹‍♂️</div>
+        <div class="bar-item">시설🏢</div>
+    </div>
+
+   
 
     <!-- <img class="home-img" src="/static/img/home.png"> -->
 
@@ -811,7 +798,7 @@
         circle = new naver.maps.Circle({
             map: map,
             center: latlng,
-            radius: 500, // 반경 500m
+            radius: 600, // 반경 500m
             fillColor: '#4285F4',
             fillOpacity: 0.2,
             strokeColor: '#4285F4',
