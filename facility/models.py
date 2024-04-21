@@ -15,9 +15,10 @@ class Facility(CommonModel):
         pharmacy = ("약국", "약국")
         bank = ("은행", "은행")
         convenience_store = ("편의점", "편의점")
+        bus_stop = ("버스정류장", "버스정류장")
 
     name = models.CharField(max_length=100, help_text="시설명")
-    address = models.CharField(max_length=300, help_text="주소")
+    address = models.CharField(max_length=300, help_text="주소", null=True, blank=True)
     type = models.CharField(
         max_length=50,
         choices=TypeChoices.choices,
