@@ -20,7 +20,15 @@ class Command(BaseCommand):
         headers = {"Authorization": f"KakaoAK {KAKAO_API_KEY}"}
 
         gas_station_data = data["장소정보"]
+
+        facility_type = "주유소"
+
         for gas_station in gas_station_data:
+            if Facility.objects.filter(
+                name=gas_station["장소명"], type=facility_type
+            ).exists():
+                continue
+
             url = (
                 "https://dapi.kakao.com/v2/local/search/address.json?query="
                 + gas_station["주소"]
@@ -31,7 +39,7 @@ class Command(BaseCommand):
             # 잘못된 데이터 확인
             if api_json["documents"] == []:
                 continue
-            payload["type"] = "주유소"
+            payload["type"] = facility_type
             payload["name"] = gas_station["장소명"]
             payload["address"] = gas_station["주소"]
             payload["lng"] = api_json["documents"][0]["address"]["x"]

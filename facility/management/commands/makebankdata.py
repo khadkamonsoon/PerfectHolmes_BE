@@ -21,7 +21,11 @@ class Command(BaseCommand):
 
         bank_data_list = data["장소정보"]
 
+        facility_type = "은행"
+
         for bank in bank_data_list:
+            if Facility.objects.filter(name=bank["장소명"], type=facility_type).exists():
+                continue
             url = (
                 "https://dapi.kakao.com/v2/local/search/address.json?query="
                 + bank["도로명 주소"]
@@ -32,7 +36,7 @@ class Command(BaseCommand):
             # 잘못된 데이터 확인
             if api_json["documents"] == []:
                 continue
-            payload["type"] = "은행"
+            payload["type"] = facility_type
             payload["name"] = bank["장소명"]
             payload["address"] = bank["도로명 주소"]
             payload["lng"] = api_json["documents"][0]["address"]["x"]

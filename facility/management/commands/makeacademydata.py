@@ -18,22 +18,27 @@ class Command(BaseCommand):
 
         # Request Header 설정
         headers = {"Authorization": f"KakaoAK {KAKAO_API_KEY}"}
-
+        facility_type = "학원"
         academy_data_list = data
         for academy in academy_data_list:
-            url = (
-                "https://dapi.kakao.com/v2/local/search/address.json?query="
-                + academy["계열"]
-            )
+            if "지역" in academy or "계열" in academy:
+                name = academy.get("지역")
+                address = academy.get("계열")
+            else:
+                name = academy.get("장소명")
+                address = academy.get("주소")
+            if Facility.objects.filter(name=name, type=facility_type).exists():
+                continue
+            url = "https://dapi.kakao.com/v2/local/search/address.json?query=" + address
             api_json = json.loads(str(requests.get(url, headers=headers).text))
             # payload 초기화
             payload = {}
             # 잘못된 데이터 확인
             if api_json["documents"] == []:
                 continue
-            payload["type"] = "학원"
-            payload["name"] = academy["지역"]
-            payload["address"] = academy["계열"]
+            payload["type"] = facility_type
+            payload["name"] = name
+            payload["address"] = address
             payload["lng"] = api_json["documents"][0]["address"]["x"]
             payload["lat"] = api_json["documents"][0]["address"]["y"]
 

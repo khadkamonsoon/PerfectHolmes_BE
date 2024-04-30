@@ -14,11 +14,20 @@ class Command(BaseCommand):
 
         bus_stop_data_list = data["장소정보"]
 
+        facility_type = "버스정류장"
+
         for bus_stop in bus_stop_data_list:
+
+            if Facility.objects.filter(
+                name=bus_stop["장소명"], type=facility_type
+            ).exists():
+                continue
+
             # payload 초기화
             payload = {}
+
             # 잘못된 데이터 확인
-            payload["type"] = "버스정류장"
+            payload["type"] = facility_type
             payload["name"] = bus_stop["장소명"]
             payload["lng"] = bus_stop["경도"]
             payload["lat"] = bus_stop["위도"]

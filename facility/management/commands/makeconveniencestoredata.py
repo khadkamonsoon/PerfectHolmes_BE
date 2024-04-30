@@ -42,7 +42,13 @@ class Command(BaseCommand):
             cu_data["장소정보"] + gs_data["장소정보"] + seven_data["장소정보"] + emart_data["장소정보"]
         )
 
+        facility_type = "편의점"
+
         for convenience_store in convenience_store_data:
+            if Facility.objects.filter(
+                name=convenience_store["장소명"], type=facility_type
+            ).exists():
+                continue
             url = (
                 "https://dapi.kakao.com/v2/local/search/address.json?query="
                 + convenience_store["도로명 주소"]
@@ -53,7 +59,7 @@ class Command(BaseCommand):
             # 잘못된 데이터 확인
             if api_json["documents"] == []:
                 continue
-            payload["type"] = "편의점"
+            payload["type"] = facility_type
             payload["name"] = convenience_store["장소명"]
             payload["address"] = convenience_store["도로명 주소"]
             payload["lng"] = api_json["documents"][0]["address"]["x"]

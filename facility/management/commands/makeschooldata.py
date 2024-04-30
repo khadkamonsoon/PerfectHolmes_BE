@@ -54,7 +54,10 @@ class Command(BaseCommand):
 
             # 생성 오류 예외처리
             try:
-                Facility.objects.create(**payload)
+                if not Facility.objects.filter(
+                    name=payload["name"], type=payload["type"]
+                ).exists():
+                    Facility.objects.create(**payload)
             except:
                 pass
         print("Make School Data is Done. :D")

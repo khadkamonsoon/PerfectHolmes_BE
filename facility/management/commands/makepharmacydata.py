@@ -21,7 +21,13 @@ class Command(BaseCommand):
 
         pharmacy_data_list = data["장소정보"]
 
+        facility_type = "약국"
+
         for pharmacy in pharmacy_data_list:
+            if Facility.objects.filter(
+                name=pharmacy["장소명"], type=facility_type
+            ).exists():
+                continue
             url = (
                 "https://dapi.kakao.com/v2/local/search/address.json?query="
                 + pharmacy["도로명 주소"]
@@ -32,7 +38,7 @@ class Command(BaseCommand):
             # 잘못된 데이터 확인
             if api_json["documents"] == []:
                 continue
-            payload["type"] = "약국"
+            payload["type"] = facility_type
             payload["name"] = pharmacy["장소명"]
             payload["address"] = pharmacy["도로명 주소"]
             payload["lng"] = api_json["documents"][0]["address"]["x"]
