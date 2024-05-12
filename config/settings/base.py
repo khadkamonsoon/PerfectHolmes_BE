@@ -5,7 +5,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Application definition
-CUSTOM_APPS = ["common", "users", "facility"]
+CUSTOM_APPS = ["common", "users", "facility", "apartment"]
 
 SYSTEM_APPS = [
     "django.contrib.admin",
@@ -93,7 +93,6 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 

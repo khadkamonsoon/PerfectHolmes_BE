@@ -31,8 +31,10 @@ class Command(BaseCommand):
                 continue
             url = "https://dapi.kakao.com/v2/local/search/address.json?query=" + address
             api_json = json.loads(str(requests.get(url, headers=headers).text))
+
             # payload 초기화
             payload = {}
+
             # 잘못된 데이터 확인
             if api_json["documents"] == []:
                 continue
