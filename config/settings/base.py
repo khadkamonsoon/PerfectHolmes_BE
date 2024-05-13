@@ -5,7 +5,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Application definition
-CUSTOM_APPS = ["common", "users", "facility", "apartment"]
 
 SYSTEM_APPS = [
     "django.contrib.admin",
@@ -14,13 +13,18 @@ SYSTEM_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+]
+
+THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
-    "drf_yasg",
+    "drf_spectacular",
 ]
 
-INSTALLED_APPS = SYSTEM_APPS + CUSTOM_APPS
+CUSTOM_APPS = ["common", "users", "facility", "apartment"]
+
+INSTALLED_APPS = SYSTEM_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -110,6 +114,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 MAX_UPLOAD_SIZE = 52428800
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
