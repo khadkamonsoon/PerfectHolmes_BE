@@ -6,6 +6,7 @@ from django.conf import settings
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        self.stdout.write("Start making center data\n")
         # csv 파일 가져오기
         file_path = os.path.join(settings.BASE_DIR, "data", "center_data.json")
 
@@ -46,6 +47,12 @@ class Command(BaseCommand):
             # 생성 오류 예외처리
             try:
                 Facility.objects.create(**payload)
-            except:
-                pass
-        print("Make Center Data is Done. :D")
+                self.stdout.write(".", ending="")
+                self.stdout.flush()
+            except Exception as e:
+                self.stdout.write(f"Error creating Facility: {e}\n")
+        self.stdout.write("\n")
+        self.stdout.write("Make Center Data is Done. :D\n")
+        self.stdout.write(
+            "------------------------------------------------------------\n"
+        )

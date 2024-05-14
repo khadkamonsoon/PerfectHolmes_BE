@@ -7,6 +7,7 @@ from django.conf import settings
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        self.stdout.write("Start making school data\n")
         # csv 파일 가져오기
         path = os.path.join(settings.BASE_DIR, "school_data.csv")
         df = pd.read_csv(path)
@@ -58,6 +59,12 @@ class Command(BaseCommand):
                     name=payload["name"], type=payload["type"]
                 ).exists():
                     Facility.objects.create(**payload)
-            except:
-                pass
-        print("Make School Data is Done. :D")
+                    self.stdout.write(".", ending="")
+                    self.stdout.flush()
+            except Exception as e:
+                self.stdout.write(f"Error creating Facility: {e}\n")
+        self.stdout.write("\n")
+        self.stdout.write("Make School Data is Done. :D")
+        self.stdout.write(
+            "------------------------------------------------------------\n"
+        )

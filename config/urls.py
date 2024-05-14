@@ -24,13 +24,13 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path("admin/", admin.site.urls),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(
         "api/docs/",
         SpectacularSwaggerView.as_view(url_name="api-schema"),
         name="api-docs",
     ),
-    path("admin/", admin.site.urls),
     path("facility/", include("facility.urls")),
     path("login/", views.login, name="login"),
     path("signup/", views.signup, name="signup"),
