@@ -191,20 +191,25 @@
             position: absolute;
             left: 400px;
             top: 5px;
-            width: 370px;
-            height: 50px;
-            margin: 20px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: white;
+            gap: 10px; /* Adds space between the items */
+            background-color: transparent;
             transition: left 0.5s ease;
             z-index: 2000;
-            font-weight: 700;
+            padding: 10px;
+        }
+        
+        .bar-item {
+            background-color: white;
+            padding: 10px 15px;
             border-radius: 20px;
             border: 1px solid lightgray;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
         }
 
         .ai-bar {
@@ -307,7 +312,7 @@
             object-fit: cover;
         }
 
-        .bar-item {
+        .bar-item1 {
             padding: 0 10px;
             cursor: pointer;
             white-space: nowrap;
@@ -551,14 +556,14 @@
     </form>
 
     <div class="search-bar">
-        <div class="bar-item" id="openModal">🔍</div>
+        <div class="bar-item1" id="openModal">🔍</div>
     </div>
 
     <div class="right-bar">
-        <div class="bar-item">교육🏫</div>
-        <div class="bar-item">의료🚑</div>
-        <div class="bar-item">여가🤹‍♂️</div>
-        <div class="bar-item">시설🏢</div>
+        <div class="bar-item1">교육🏫</div>
+        <div class="bar-item1">의료🚑</div>
+        <div class="bar-item1">여가🤹‍♂️</div>
+        <div class="bar-item1">시설🏢</div>
     </div>
 
    
