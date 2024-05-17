@@ -53,3 +53,5 @@ LOGGING = {
 }
 
 KAKAO_API_KEY = read_secret("KAKAO_API_KEY")
+OPEN_AI_KEY = read_secret("OPEN_AI_KEY")
+OPEN_AI_PROMPT = read_secret("OPEN_AI_PROMPT")

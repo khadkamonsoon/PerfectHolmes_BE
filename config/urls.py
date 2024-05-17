@@ -32,6 +32,8 @@ urlpatterns = [
         name="api-docs",
     ),
     path("facility/", include("facility.urls")),
+    path("apartment/", include("apartment.urls")),
+    path("auth/", include("users.urls")),
     path("login/", views.login, name="login"),
     path("signup/", views.signup, name="signup"),
     path("main/", views.main_page, name="main"),
