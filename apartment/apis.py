@@ -4,6 +4,13 @@ import os, requests, json, environ
 from django.conf import settings
 
 
+class ApartmentSearchAPI(generics.GenericAPIView):
+    def post(self, request):
+        facility = request.data.get("facility")
+        apartment = request.data.get("apartment")
+        return Response(status=status.HTTP_200_OK)
+
+
 class GPTApartmentSearchAPI(generics.GenericAPIView):
     def post(self, request):
         question = request.data.get("question")
