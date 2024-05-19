@@ -37,6 +37,7 @@ class Facility(CommonModel):
         gas_station = ("주유소", "주유소")
         welfare_center = ("노인복지시설", "노인복지시설")
         bowling_club = ("볼링장", "볼링장")
+        movie_theater = ("영화관", "영화관")
 
     name = models.CharField(max_length=100, help_text="시설명")
     address = models.CharField(max_length=300, help_text="주소", null=True, blank=True)
