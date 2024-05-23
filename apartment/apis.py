@@ -2,12 +2,14 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 import os, requests, json, environ
 from django.conf import settings
+from .serializers import ApartmentSerializer
 
 
 class ApartmentSearchAPI(generics.GenericAPIView):
     def post(self, request):
         facility = request.data.get("facility")
         apartment = request.data.get("apartment")
+        apartment_serializer = ApartmentSerializer(data=apartment)
         return Response(status=status.HTTP_200_OK)
 
 
