@@ -12,3 +12,47 @@ class ApartmentAPITest(TestCase):
             },
         )
         print(res.data)
+
+    def test_apartment_search_api(self):
+        url = reverse("apartment:apartment-search")
+        res = self.client.post(
+            url,
+            {
+                "facility": [
+                    {
+                        "type": "유치원",
+                        "distance": 2000,
+                        "unit": "m",
+                    },
+                    {
+                        "type": "편의점",
+                        "distance": 100,
+                        "unit": "m",
+                    },
+                    {
+                        "type": "은행",
+                        "distance": 300,
+                        "unit": "m",
+                    },
+                    {
+                        "type": "약국",
+                        "distance": 50,
+                        "unit": "m",
+                    },
+                ],
+                "apartment": {
+                    "room_count": 3,
+                    "area": 30,
+                    "built_year": {
+                        "min": 2012,
+                        "max": 2022,
+                    },
+                    "price": {
+                        "min": 300000000,
+                        "max": 500000000,
+                    },
+                    "households": 100,
+                },
+            },
+        )
+        print(res.data)
