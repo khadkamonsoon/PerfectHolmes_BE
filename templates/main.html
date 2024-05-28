@@ -600,7 +600,7 @@
       <div class="bar-item1" onclick="handleItemClick('아동복지시설')">
         여가🤹‍♂️
       </div>
-      <div class="bar-item1" onclick="handleItemClick('편의점')">시설🏢</div>
+      <div class="bar-item1" onclick="handleItemClick('시설')">시설🏢</div>
     </div>
 
     <!-- <img class="home-img" src="/static/img/home.png"> -->
@@ -1100,23 +1100,31 @@
     };
 
     function handleItemClick(key) {
+      // Get the bounds of the current map view
+      var bounds = map.getBounds();
+
+      // Calculate the center point of the bounds
+      var center = bounds.getCenter();
+
+      console.log("key === ", key);
+
       // Your logic here
-      /*$.ajax({
-        url: "/facility/around",
+      $.ajax({
+        url: "/facility/",
         method: "GET",
         data: {
-          lat: lat,
-          lng: lng,
-          type:key,
+          lat: center.lat(),
+          lng: center.lng(),
+          type: key,
         },
         success: function (response) {
-          console.log("value : ", value);
+          console.log("value : ", response);
         },
         error: function (request, status, error) {
           console.error("주변 시설을 불러오는 중 에러 발생", error);
           alert("주변 시설을 불러오지 못했습니다. 다시 시도해주세요.");
         },
-      });*/
+      });
       const arr = [
         {
           id: 118,
@@ -1128,13 +1136,38 @@
           lat: 34.8086412384379,
           lng: 126.420064965595,
         },
+        {
+          id: 119,
+          created_at: "2024-04-09T17:05:33.277331",
+          updated_at: "2024-04-09T17:05:33.277376",
+          name: "하당동 행정복지센터",
+          address: "전남 목포시 하당로 215",
+          type: "주민센터",
+          lat: 34.80040081802326,
+          lng: 126.38475611606447,
+        },
+        {
+          id: 120,
+          created_at: "2024-04-09T17:05:33.277331",
+          updated_at: "2024-04-09T17:05:33.277376",
+          name: "하당동 행정복지센터",
+          address: "전남 목포시 하당로 215",
+          type: "주민센터",
+          lat: 34.790703,
+          lng: 126.395485,
+        },
       ];
+
+      var iconUrl = `../static/assets/img/${key.replaceAll(" ", "")}.png`;
 
       arr.forEach(function (item) {
         var facilityMarker = new naver.maps.Marker({
           map: map,
           position: new naver.maps.LatLng(item.lat, item.lng),
           title: item.name,
+          icon: {
+            url: iconUrl, // Adjust the size as needed
+          },
         });
         facilityMarkers.push(facilityMarker);
       });
