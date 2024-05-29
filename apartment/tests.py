@@ -18,7 +18,7 @@ class ApartmentAPITest(TestCase):
         res = self.client.post(
             url,
             {
-                "facility": [
+                "facility": [  # 시설물 리스트 (type, 거리, 거리단위)
                     {
                         "type": "유치원",
                         "distance": 2000,
@@ -41,17 +41,22 @@ class ApartmentAPITest(TestCase):
                     },
                 ],
                 "apartment": {
-                    "room_count": 3,
-                    "area": 30,
-                    "built_year": {
+                    "room_count": 3,  # 방개수
+                    "area": {  # 면적
+                        "min": 30,
+                        "max": 30,
+                        "unit": "평",
+                    },
+                    "built_year": {  # 준공년도
                         "min": 2012,
                         "max": 2022,
                     },
-                    "price": {
-                        "min": 300000000,
-                        "max": 500000000,
+                    "price": {  # 가격 (min, max, 단위는 억원으로 통일)
+                        "min": 3,
+                        "max": 5,
+                        "unit": "억원",
                     },
-                    "households": 100,
+                    "households": 100,  # 세대수
                 },
             },
         )
