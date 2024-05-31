@@ -4,38 +4,6 @@ var marker;
 var facilityMarkers = [];
 var clickedMarker;
 
-var places = [
-  {
-    name: "나무숲",
-    subtitle: "카페",
-    description: "빙수개커욘",
-    imageUrl:
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDAyMDhfMTU1%2FMDAxNzA3MzU1NzA0NTIz.Lfj4DJMS9bqkRRXPTXMtDf91yZTuupGt6wO-YbfN47Yg.Lq54OmwRmYGZjhhzTWf4Hm1F5esR5lmsureDZZhLrVUg.JPEG.bdsea1217%2FIMG_7409.jpg&type=f&size=680x360&quality=80&opt=2",
-  },
-  {
-    name: "오늘은 왠지",
-    subtitle: "카페",
-    description: "커피맛이 너무 고급스러워요, 목대 커피는 owen",
-    imageUrl:
-      "https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221020_229%2F1666253513669TeKUY_JPEG%2F94E54031-7DD6-4B42-AE98-5511F3224B50.jpeg",
-  },
-  {
-    name: "메가커피",
-    subtitle: "카페",
-    description:
-      "위치도 좋고 커피도 맛있는 이곳, 패스오더 서비스 도입되면 더 자주 방문할거같아요",
-    imageUrl:
-      "https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210206_250%2F1612575043521ah9D6_JPEG%2FMfZhDYNAK4n0KZPidaoJgc_b.jpg",
-  },
-  {
-    name: "나무숲",
-    subtitle: "카페",
-    description: "빙수개커욘",
-    imageUrl:
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDAyMDhfMTU1%2FMDAxNzA3MzU1NzA0NTIz.Lfj4DJMS9bqkRRXPTXMtDf91yZTuupGt6wO-YbfN47Yg.Lq54OmwRmYGZjhhzTWf4Hm1F5esR5lmsureDZZhLrVUg.JPEG.bdsea1217%2FIMG_7409.jpg&type=f&size=680x360&quality=80&opt=2",
-  },
-];
-
 function selectMapList() {
   if (map) {
     map.destroy();
@@ -138,6 +106,8 @@ function sendCoordinatesToServer(lat, lng) {
       if (Array.isArray(response) && response.length > 0) {
         for (var i = 0; i < response.length; i++) {
           var facility = response[i];
+          var iconUrl = `../static/assets/img/${facility.type}.png`;
+          var imgUrl = `../static/assets/placeImg/${facility.type}.jpg`;
           var facilityLatlng = new naver.maps.LatLng(
             facility.lat,
             facility.lng
@@ -146,8 +116,17 @@ function sendCoordinatesToServer(lat, lng) {
             map: map,
             position: facilityLatlng,
             title: facility.name,
+            icon: {
+              url: iconUrl,
+            },
           });
           facilityMarkers.push(facilityMarker);
+          console.log("facility : ", facility);
+          (function (facility, imgUrl) {
+            facilityMarker.addListener("click", function () {
+              showMarkerDetails(facility, imgUrl);
+            });
+          })(facility, imgUrl);
         }
       } else {
         alert("주변에 시설이 없습니다.");
@@ -193,6 +172,7 @@ function openModal() {
 }
 
 function showMarkerDetails(place, imgUrl) {
+  console.log("test ; ", place);
   $(".sideBarContainer").css("display", "block");
   var html = `
   <div class="card">
@@ -237,7 +217,6 @@ function showMarkers(keyArr) {
   removeFacilityMarkers();
 
   keyArr.forEach(function (key) {
-    console.log("key : ", key);
     const imgName = key.replaceAll(" ", "");
     var iconUrl = `../static/assets/img/${imgName}.png`;
     var imgUrl = `../static/assets/placeImg/${imgName}.jpg`;
