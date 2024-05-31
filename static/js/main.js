@@ -192,13 +192,13 @@ function openModal() {
   modal.style.display = "block";
 }
 
-function showMarkerDetails(place) {
+function showMarkerDetails(place, imgUrl) {
   $(".sideBarContainer").css("display", "block");
   var html = `
   <div class="card">
     <div class="card-body">
       <div class="col-md-4">
-        <img src="${place.imageUrl}" alt="이미지">
+        <img src="${imgUrl}" alt="이미지">
       </div>
       <div id="place_intro">
         <h5 class="card-title">${place.name}</h5>
@@ -211,10 +211,10 @@ function showMarkerDetails(place) {
 `;
 
   // Append the HTML to the side-list container
-  $(".side-list").append(html);
+  $(".side-list").html(html);
 }
 
-function displayOnMap(arr, iconUrl) {
+function displayOnMap(arr, iconUrl, imgUrl) {
   arr.forEach(function (item) {
     var facilityMarker = new naver.maps.Marker({
       map: map,
@@ -226,7 +226,7 @@ function displayOnMap(arr, iconUrl) {
     });
     facilityMarkers.push(facilityMarker);
     facilityMarker.addListener("click", function () {
-      showMarkerDetails(item);
+      showMarkerDetails(item, imgUrl);
     });
   });
 }
@@ -234,11 +234,13 @@ function displayOnMap(arr, iconUrl) {
 function showMarkers(keyArr) {
   var bounds = map.getBounds();
   var center = bounds.getCenter();
-  console.log("keyArr : ", keyArr);
+  removeFacilityMarkers();
 
   keyArr.forEach(function (key) {
     console.log("key : ", key);
-    var iconUrl = `../static/assets/img/${key.replaceAll(" ", "")}.png`;
+    const imgName = key.replaceAll(" ", "");
+    var iconUrl = `../static/assets/img/${imgName}.png`;
+    var imgUrl = `../static/assets/placeImg/${imgName}.jpg`;
     $.ajax({
       url: "/facility/",
       method: "GET",
@@ -249,8 +251,7 @@ function showMarkers(keyArr) {
         type: key,
       },
       success: function (response) {
-        console.log("response : ", response);
-        displayOnMap(response, iconUrl);
+        displayOnMap(response, iconUrl, imgUrl);
       },
       error: function (request, status, error) {
         console.error("주변 시설을 불러오는 중 에러 발생", error);
