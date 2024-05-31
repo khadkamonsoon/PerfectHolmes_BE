@@ -192,69 +192,29 @@ function openModal() {
   modal.style.display = "block";
 }
 
-function showMarkers(key) {
-  var bounds = map.getBounds();
-  var center = bounds.getCenter();
+function showMarkerDetails(place) {
+  $(".sideBarContainer").css("display", "block");
+  var html = `
+  <div class="card">
+    <div class="card-body">
+      <div class="col-md-4">
+        <img src="${place.imageUrl}" alt="이미지">
+      </div>
+      <div id="place_intro">
+        <h5 class="card-title">${place.name}</h5>
+        <a class="card-subtitle">${place.type}</a>
+      </div>
+      <p class="card-text">${place.address}</p>
+    </div>
+  </div>
+  <hr />
+`;
 
-  console.log("key === ", key);
+  // Append the HTML to the side-list container
+  $(".side-list").append(html);
+}
 
-  $.ajax({
-    url: "/facility/",
-    method: "GET",
-    data: {
-      lat: center.lat(),
-      lng: center.lng(),
-      type: key,
-    },
-    success: function (response) {
-      console.log("value : ", response);
-    },
-    error: function (request, status, error) {
-      console.error("주변 시설을 불러오는 중 에러 발생", error);
-      alert("주변 시설을 불러오지 못했습니다. 다시 시도해주세요.");
-    },
-  });
-  const arr = [
-    {
-      id: 118,
-      created_at: "2024-04-09T17:05:33.277331",
-      updated_at: "2024-04-09T17:05:33.277376",
-      name: "하당동 행정복지센터",
-      address: "전남 목포시 하당로 215",
-      type: "주민센터",
-      lat: 34.8086412384379,
-      lng: 126.420064965595,
-      imageUrl:
-        "https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210206_250%2F1612575043521ah9D6_JPEG%2FMfZhDYNAK4n0KZPidaoJgc_b.jpg",
-    },
-    {
-      id: 119,
-      created_at: "2024-04-09T17:05:33.277331",
-      updated_at: "2024-04-09T17:05:33.277376",
-      name: "하당동 행정복지센터",
-      address: "전남 목포시 하당로 215",
-      type: "주민센터",
-      lat: 34.80040081802326,
-      lng: 126.38475611606447,
-      imageUrl:
-        "https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210206_250%2F1612575043521ah9D6_JPEG%2FMfZhDYNAK4n0KZPidaoJgc_b.jpg",
-    },
-    {
-      id: 120,
-      created_at: "2024-04-09T17:05:33.277331",
-      updated_at: "2024-04-09T17:05:33.277376",
-      name: "하당동 행정복지센터",
-      address: "전남 목포시 하당로 215",
-      type: "주민센터",
-      lat: 34.790703,
-      lng: 126.395485,
-      imageUrl:
-        "https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210206_250%2F1612575043521ah9D6_JPEG%2FMfZhDYNAK4n0KZPidaoJgc_b.jpg",
-    },
-  ];
-
-  var iconUrl = `../static/assets/img/${key.replaceAll(" ", "")}.png`;
-
+function displayOnMap(arr, iconUrl) {
   arr.forEach(function (item) {
     var facilityMarker = new naver.maps.Marker({
       map: map,
@@ -265,29 +225,38 @@ function showMarkers(key) {
       },
     });
     facilityMarkers.push(facilityMarker);
+    facilityMarker.addListener("click", function () {
+      showMarkerDetails(item);
+    });
   });
+}
 
-  $(".sideBarContainer").css("display", "block");
+function showMarkers(keyArr) {
+  var bounds = map.getBounds();
+  var center = bounds.getCenter();
+  console.log("keyArr : ", keyArr);
 
-  arr.forEach(function (place) {
-    var html = `
-      <div class="card">
-        <div class="card-body">
-          <div class="col-md-4">
-            <img src="${place.imageUrl}" alt="이미지">
-          </div>
-          <div id="place_intro">
-            <h5 class="card-title">${place.name}</h5>
-            <a class="card-subtitle">${place.type}</a>
-          </div>
-          <p class="card-text">${place.address}</p>
-        </div>
-      </div>
-      <hr />
-    `;
-
-    // Append the HTML to the side-list container
-    $(".side-list").append(html);
+  keyArr.forEach(function (key) {
+    console.log("key : ", key);
+    var iconUrl = `../static/assets/img/${key.replaceAll(" ", "")}.png`;
+    $.ajax({
+      url: "/facility/",
+      method: "GET",
+      contentType: "application/json",
+      data: {
+        lat: center.lat(),
+        lng: center.lng(),
+        type: key,
+      },
+      success: function (response) {
+        console.log("response : ", response);
+        displayOnMap(response, iconUrl);
+      },
+      error: function (request, status, error) {
+        console.error("주변 시설을 불러오는 중 에러 발생", error);
+        alert("주변 시설을 불러오지 못했습니다. 다시 시도해주세요.");
+      },
+    });
   });
 }
 

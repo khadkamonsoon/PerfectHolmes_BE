@@ -11,25 +11,25 @@ class Command(BaseCommand):
         cu_path = os.path.join(settings.BASE_DIR, "data", "cu.json")
 
         # 파일 열기 및 JSON 데이터 로드
-        with open(cu_path, "r") as file:
+        with open(cu_path, "r", encoding='utf-8') as file:
             cu_data = json.load(file)
 
         gs_path = os.path.join(settings.BASE_DIR, "data", "gs.json")
 
         # 파일 열기 및 JSON 데이터 로드
-        with open(gs_path, "r") as file:
+        with open(gs_path, "r", encoding='utf-8') as file:
             gs_data = json.load(file)
 
         seven_path = os.path.join(settings.BASE_DIR, "data", "seven.json")
 
         # 파일 열기 및 JSON 데이터 로드
-        with open(seven_path, "r") as file:
+        with open(seven_path, "r", encoding='utf-8') as file:
             seven_data = json.load(file)
 
         emart_path = os.path.join(settings.BASE_DIR, "data", "emart24.json")
 
         # 파일 열기 및 JSON 데이터 로드
-        with open(emart_path, "r") as file:
+        with open(emart_path, "r", encoding='utf-8') as file:
             emart_data = json.load(file)
 
         # 카카오 API_KEY 가져오기

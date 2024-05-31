@@ -40,10 +40,15 @@
     </div>
 
     <div class="top-bar">
-      <div class="bar-item" onclick="showMarkers('버스정류장')">🚏정류장</div>
-      <div class="bar-item" onclick="showMarkers('고등학교')">🏫학교</div>
-      <div class="bar-item" onclick="showMarkers('편의점')">🏪편의점</div>
-      <div class="bar-item" onclick="showMarkers('식당')">🍴식당</div>
+      <div class="bar-item" onclick="showMarkers(['버스정류장'])">🚏정류장</div>
+      <div
+        class="bar-item"
+        onclick="showMarkers(['학원','유치원','초등학교','고등학교'])"
+      >
+        🏫학교
+      </div>
+      <div class="bar-item" onclick="showMarkers(['편의점'])">🏪편의점</div>
+      <div class="bar-item" onclick="showMarkers(['식당'])">🍴식당</div>
     </div>
 
     <form class="ai-bar" action="" method="get">
@@ -62,10 +67,30 @@
     </div>
 
     <div class="right-bar">
-      <div class="bar-item1" onclick="showMarkers('학원')">교육🏫</div>
-      <div class="bar-item1" onclick="showMarkers('장소 유형')">의료🚑</div>
-      <div class="bar-item1" onclick="showMarkers('아동복지시설')">여가🤹‍♂️</div>
-      <div class="bar-item1" onclick="showMarkers('시설')">시설🏢</div>
+      <div
+        class="bar-item1"
+        onclick="showMarkers(['학원','유치원','초등학교','고등학교'])"
+      >
+        교육🏫
+      </div>
+      <div
+        class="bar-item1"
+        onclick="showMarkers(['약국','외과','이비인후과','치과'])"
+      >
+        의료🚑
+      </div>
+      <div
+        class="bar-item1"
+        onclick="showMarkers(['볼링장','주민센터','헬스장','영화관'])"
+      >
+        여가🤹‍♂️
+      </div>
+      <div
+        class="bar-item1"
+        onclick="showMarkers(['아동복지시설','노인복지시설','경찰서','주민센터','은행','전기차충전소','주유소'])"
+      >
+        시설🏢
+      </div>
     </div>
 
     <!-- <img class="home-img" src="/static/img/home.png"> -->
