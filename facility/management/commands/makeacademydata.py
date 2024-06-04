@@ -2,17 +2,14 @@ from django.core.management import BaseCommand
 from facility.models import Facility
 import os, requests, json, environ
 from django.conf import settings
+from api.load_json import load_json
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write("Start making Academy data\n")
-        # csv 파일 가져오기
-        file_path = os.path.join(settings.BASE_DIR, "data", "academy_data.json")
 
-        # 파일 열기 및 JSON 데이터 로드
-        with open(file_path, "r") as file:
-            data = json.load(file)
+        data = load_json("data", "academy_data.json")
         # 카카오 API_KEY 가져오기
         environ.Env.read_env(os.path.join(settings.BASE_DIR, ".env"))
         KAKAO_API_KEY = settings.KAKAO_API_KEY
