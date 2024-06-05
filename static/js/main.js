@@ -103,6 +103,7 @@ function sendCoordinatesToServer(lat, lng) {
     },
     success: function (response) {
       removeFacilityMarkers();
+      $(".side-list").empty();
       if (Array.isArray(response) && response.length > 0) {
         for (var i = 0; i < response.length; i++) {
           var facility = response[i];
@@ -121,12 +122,7 @@ function sendCoordinatesToServer(lat, lng) {
             },
           });
           facilityMarkers.push(facilityMarker);
-          console.log("facility : ", facility);
-          (function (facility, imgUrl) {
-            facilityMarker.addListener("click", function () {
-              showMarkerDetails(facility, imgUrl);
-            });
-          })(facility, imgUrl);
+          showMarkerDetails(facility, imgUrl);
         }
       } else {
         alert("주변에 시설이 없습니다.");
@@ -163,16 +159,14 @@ document.addEventListener("DOMContentLoaded", function () {
   selectMapList();
 });
 
-var modal = document.getElementById("myModal");
-
 var eduInstitude = document.getElementById("edInstitude");
 
 function openModal() {
+  var modal = document.getElementById("myModal");
   modal.style.display = "block";
 }
 
 function showMarkerDetails(place, imgUrl) {
-  console.log("test ; ", place);
   $(".sideBarContainer").css("display", "block");
   var html = `
   <div class="card">
@@ -191,10 +185,20 @@ function showMarkerDetails(place, imgUrl) {
 `;
 
   // Append the HTML to the side-list container
-  $(".side-list").html(html);
+  $(".side-list").append(html);
+}
+
+function searchByFilter() {
+  const selectedDetail = $("#selected-details")[0].outerText;
+  var cleanedText = selectedDetail.replace(/×/g, "");
+  var resultArray = cleanedText.split("\n").filter(Boolean);
+  showMarkers(resultArray);
+  $("#myModal").hide();
 }
 
 function displayOnMap(arr, iconUrl, imgUrl) {
+  $(".side-list").empty();
+  console.log("display arrr : ", arr);
   arr.forEach(function (item) {
     var facilityMarker = new naver.maps.Marker({
       map: map,
@@ -204,10 +208,8 @@ function displayOnMap(arr, iconUrl, imgUrl) {
         url: iconUrl,
       },
     });
+    showMarkerDetails(item, imgUrl);
     facilityMarkers.push(facilityMarker);
-    facilityMarker.addListener("click", function () {
-      showMarkerDetails(item, imgUrl);
-    });
   });
 }
 
@@ -217,6 +219,7 @@ function showMarkers(keyArr) {
   removeFacilityMarkers();
 
   keyArr.forEach(function (key) {
+    console.log("key : ", key);
     const imgName = key.replaceAll(" ", "");
     var iconUrl = `../static/assets/img/${imgName}.png`;
     var imgUrl = `../static/assets/placeImg/${imgName}.jpg`;
@@ -239,12 +242,6 @@ function showMarkers(keyArr) {
     });
   });
 }
-
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-};
 
 document.addEventListener("DOMContentLoaded", function () {
   var span = document.getElementsByClassName("close")[0];
