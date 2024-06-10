@@ -2,17 +2,14 @@ from django.core.management import BaseCommand
 from facility.models import Facility
 import os, json
 from django.conf import settings
+from api.load_json import load_json
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write("Start making bus stop data\n")
 
-        file_path = os.path.join(settings.BASE_DIR, "data", "bus.json")
-
-        # 파일 열기 및 JSON 데이터 로드
-        with open(file_path, "r", encoding='utf-8') as file:
-            data = json.load(file)
+        data = load_json("data", "bus.json")
 
         bus_stop_data_list = data["장소정보"]
 

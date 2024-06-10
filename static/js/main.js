@@ -243,6 +243,12 @@ function showMarkers(keyArr) {
   });
 }
 
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
 document.addEventListener("DOMContentLoaded", function () {
   var span = document.getElementsByClassName("close")[0];
   span.onclick = closeModal;

@@ -76,6 +76,7 @@ class GPTApartmentSearchAPI(generics.GenericAPIView):
         environ.Env.read_env(os.path.join(settings.BASE_DIR, ".env"))
         OPEN_AI_KEY = settings.OPEN_AI_KEY
         OPEN_AI_PROMPT = settings.OPEN_AI_PROMPT
+        GPT_MODEL = settings.GPT_MODEL
 
         url = "https://api.openai.com/v1/chat/completions"
         headers = {
@@ -83,7 +84,7 @@ class GPTApartmentSearchAPI(generics.GenericAPIView):
             "Authorization": f"Bearer {OPEN_AI_KEY}",
         }
         body = {
-            "model": "ft:gpt-3.5-turbo-1106:personal:estate-new:9O2fT1bE",
+            "model": GPT_MODEL,
             "messages": [
                 {"role": "system", "content": OPEN_AI_PROMPT},
                 {"role": "user", "content": question},

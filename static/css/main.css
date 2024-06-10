@@ -161,10 +161,6 @@ div {
   border-left: none;
 }
 
-.side-header {
-  padding-bottom: 50px;
-}
-
 .sidebar-collapsed + .toggle-btn {
   left: 0;
   transform: translateY(-50%) rotate(180deg);
