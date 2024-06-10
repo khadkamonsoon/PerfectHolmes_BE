@@ -307,10 +307,6 @@ div {
   left: 0;
 }
 
-#submit {
-  margin: 0 10px;
-}
-
 .nav-link.dropdown-toggle.more::after {
   display: none;
 }
