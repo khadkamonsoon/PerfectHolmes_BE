@@ -103,8 +103,7 @@ class GPTApartmentSearchAPI(generics.GenericAPIView):
         }
         try:
             res = requests.post(url, headers=headers, data=json.dumps(body))
-            data = res.json()
-
+            data = res.json()["choices"][0]["message"]["content"]
             apartment_filters = data.get("apartment", {})
             apartments = Apartment.objects.all()
 
