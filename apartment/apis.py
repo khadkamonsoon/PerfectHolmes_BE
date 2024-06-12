@@ -5,7 +5,7 @@ from django.conf import settings
 from .serializers import ApartmentSerializer, FacilityDistanceSerializer
 from .models import Apartment
 from facility.models import Facility
-from geopy.distance import geodesic
+from geopy.distance import distance
 
 
 class ApartmentSearchAPI(generics.GenericAPIView):
@@ -23,51 +23,62 @@ class ApartmentSearchAPI(generics.GenericAPIView):
         if not valid_facilities.is_valid():
             return Response(valid_facilities.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        facilities_data = valid_facilities.validated_data
+        data = request.data
+        apartment_filters = data.get("apartment", {})
+        apartments = Apartment.objects.all()
 
-        apartment_request = request.data.get("apartment")
+        if "room_count" in apartment_filters:
+            apartments = apartments.filter(room_count=apartment_filters["room_count"])
 
-        queryset = self.get_queryset()
+        if "area" in apartment_filters:
+            min_area = apartment_filters["area"]["min"]
+            max_area = apartment_filters["area"]["max"]
+            apartments = apartments.filter(area__gte=min_area, area__lte=max_area)
 
-        matching_apartments = []
+        if "built_year" in apartment_filters:
+            min_year = apartment_filters["built_year"]["min"]
+            max_year = apartment_filters["built_year"]["max"]
+            apartments = apartments.filter(
+                built_year__gte=min_year, built_year__lte=max_year
+            )
 
-        for apartment in queryset:
-            apartment_location = (apartment.lat, apartment.lng)
-            matches_all = True
+        if "price" in apartment_filters:
+            min_price = apartment_filters["price"]["min"]
+            max_price = apartment_filters["price"]["max"]
+            apartments = apartments.filter(price__gte=min_price, price__lte=max_price)
 
-            for facility_data in facilities_data:
-                facility_type = facility_data["type"]
-                max_distance = facility_data["distance"]
-                unit = facility_data["unit"]
+        facility_filters = data.get("facility", [])
+        valid_apartments = []
 
-                if unit.lower() == "m":
-                    max_distance_km = max_distance / 1000.0  # 미터를 킬로미터로 변환
-                else:
-                    return Response(
-                        {"error": "Unsupported unit"},
-                        status=status.HTTP_400_BAD_REQUEST,
-                    )
+        for apartment in apartments:
+            valid = True
+            for facility_filter in facility_filters:
+                facility_type = facility_filter["type"]
+                max_distance = facility_filter["distance"]
+                unit = facility_filter["unit"]
 
-                nearby_facilities = Facility.objects.filter(type=facility_type)
-                facility_within_distance = False
+                if unit == "m":
+                    max_distance /= 1000.0  # Convert to kilometers
 
-                for facility in nearby_facilities:
-                    facility_location = (facility.lat, facility.lng)
-                    actual_distance_km = geodesic(
-                        apartment_location, facility_location
+                facilities = Facility.objects.filter(type=facility_type)
+                within_distance = any(
+                    distance(
+                        (apartment.lat, apartment.lng), (facility.lat, facility.lng)
                     ).km
-                    if actual_distance_km <= max_distance_km:
-                        facility_within_distance = True
-                        break
+                    <= max_distance
+                    for facility in facilities
+                )
 
-                if not facility_within_distance:
-                    matches_all = False
+                if not within_distance:
+                    valid = False
                     break
 
-            if matches_all:
-                matching_apartments.append(apartment)
+            if valid:
+                valid_apartments.append(apartment)
 
-        return Response(status=status.HTTP_200_OK)
+        serializer = ApartmentSerializer(valid_apartments, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class GPTApartmentSearchAPI(generics.GenericAPIView):
@@ -92,6 +103,65 @@ class GPTApartmentSearchAPI(generics.GenericAPIView):
         }
         try:
             res = requests.post(url, headers=headers, data=json.dumps(body))
-            return Response(res.json())
+            data = res.json()
+
+            apartment_filters = data.get("apartment", {})
+            apartments = Apartment.objects.all()
+
+            if "room_count" in apartment_filters:
+                apartments = apartments.filter(
+                    room_count=apartment_filters["room_count"]
+                )
+
+            if "area" in apartment_filters:
+                min_area = apartment_filters["area"]["min"]
+                max_area = apartment_filters["area"]["max"]
+                apartments = apartments.filter(area__gte=min_area, area__lte=max_area)
+
+            if "built_year" in apartment_filters:
+                min_year = apartment_filters["built_year"]["min"]
+                max_year = apartment_filters["built_year"]["max"]
+                apartments = apartments.filter(
+                    built_year__gte=min_year, built_year__lte=max_year
+                )
+
+            if "price" in apartment_filters:
+                min_price = apartment_filters["price"]["min"]
+                max_price = apartment_filters["price"]["max"]
+                apartments = apartments.filter(
+                    price__gte=min_price, price__lte=max_price
+                )
+
+            facility_filters = data.get("facility", [])
+            valid_apartments = []
+
+            for apartment in apartments:
+                valid = True
+                for facility_filter in facility_filters:
+                    facility_type = facility_filter["type"]
+                    max_distance = facility_filter["distance"]
+                    unit = facility_filter["unit"]
+
+                    if unit == "m":
+                        max_distance /= 1000.0  # Convert to kilometers
+
+                    facilities = Facility.objects.filter(type=facility_type)
+                    within_distance = any(
+                        distance(
+                            (apartment.lat, apartment.lng), (facility.lat, facility.lng)
+                        ).km
+                        <= max_distance
+                        for facility in facilities
+                    )
+
+                    if not within_distance:
+                        valid = False
+                        break
+
+                if valid:
+                    valid_apartments.append(apartment)
+
+            serializer = ApartmentSerializer(valid_apartments, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
