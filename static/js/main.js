@@ -345,6 +345,33 @@ function handleFormSubmit(event) {
     },
     success: function (response) {
       displayOnMap(response);
+      /*
+      removeFacilityMarkers();
+      $(".side-list").empty();
+      console.log("choices : ", response);
+      const choices = response?.choices;
+      if (choices.length > 0) {
+        for (var i = 0; i < choices.length; i++) {
+          var aiReturn = JSON.parse(choices[i].message.content);
+
+          $.ajax({
+            url: "/apartment/search",
+            method: "POST",
+            contentType: "application/json",
+            data: aiReturn,
+            success: function (response) {
+              displayOnMap(response);
+            },
+            error: function (request, status, error) {
+              console.error("주변 시설을 불러오는 중 에러 발생", error);
+              alert("주변 시설을 불러오지 못했습니다. 다시 시도해주세요.");
+            },
+          });
+          return;
+        }
+      } else {
+        alert("주변에 시설이 없습니다.");
+      }*/
     },
     error: function (request, status, error) {
       console.error("주변 시설을 불러오는 중 에러 발생", error);

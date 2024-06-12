@@ -104,7 +104,7 @@ class GPTApartmentSearchAPI(generics.GenericAPIView):
         try:
             res = requests.post(url, headers=headers, data=json.dumps(body))
             data = res.json()["choices"][0]["message"]["content"]
-            apartment_filters = data.get("apartment", {})
+            apartment_filters = json.loads(data)["apartment"]
             apartments = Apartment.objects.all()
 
             if "room_count" in apartment_filters:
@@ -113,25 +113,25 @@ class GPTApartmentSearchAPI(generics.GenericAPIView):
                 )
 
             if "area" in apartment_filters:
-                min_area = apartment_filters["area"]["min"]
-                max_area = apartment_filters["area"]["max"]
+                min_area = apartment_filters["area"].get("min", 0)
+                max_area = apartment_filters["area"].get("max", 5200)
                 apartments = apartments.filter(area__gte=min_area, area__lte=max_area)
 
             if "built_year" in apartment_filters:
-                min_year = apartment_filters["built_year"]["min"]
-                max_year = apartment_filters["built_year"]["max"]
+                min_year = apartment_filters["built_year"].get("min",1024)
+                max_year = apartment_filters["built_year"].get("max", 2024)
                 apartments = apartments.filter(
                     built_year__gte=min_year, built_year__lte=max_year
                 )
 
             if "price" in apartment_filters:
-                min_price = apartment_filters["price"]["min"]
-                max_price = apartment_filters["price"]["max"]
+                min_price = apartment_filters["price"].get("min",0)
+                max_price = apartment_filters["price"].get("max", 2000000024)
                 apartments = apartments.filter(
                     price__gte=min_price, price__lte=max_price
                 )
 
-            facility_filters = data.get("facility", [])
+            facility_filters = json.loads(data).get("facility", [])
             valid_apartments = []
 
             for apartment in apartments:
@@ -162,5 +162,6 @@ class GPTApartmentSearchAPI(generics.GenericAPIView):
 
             serializer = ApartmentSerializer(valid_apartments, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except:
+        except Exception as e:
+            print("Request Exception:", e) 
             return Response(status=status.HTTP_400_BAD_REQUEST)

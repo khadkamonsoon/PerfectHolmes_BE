@@ -22,6 +22,7 @@ class Command(BaseCommand):
         os.system("python manage.py makechildwelfarecenterdata")
         os.system("python manage.py makeelectricchargerdata")
         os.system("python manage.py makepolicedata")
+        os.system("python manage.py makegymdata")
         os.system("python manage.py makeapartment")
 
         end_time = time.time()  # command 종료 시간 기록
