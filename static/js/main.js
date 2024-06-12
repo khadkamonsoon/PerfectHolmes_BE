@@ -185,7 +185,7 @@ function searchByFilter() {
 
 function displayOnMap(arr) {
   $(".side-list").empty();
-  console.log("display arrr : ", arr);
+  removeFacilityMarkers();
   arr.forEach(function (item) {
     var iconUrl = `../static/assets/img/${item.type || "아파트"}.png`;
     var imgUrl = `../static/assets/placeImg/${item.type || "아파트"}.jpg`;
