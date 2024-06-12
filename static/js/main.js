@@ -187,8 +187,8 @@ function displayOnMap(arr) {
   $(".side-list").empty();
   console.log("display arrr : ", arr);
   arr.forEach(function (item) {
-    var iconUrl = `../static/assets/img/${item.type}.png`;
-    var imgUrl = `../static/assets/placeImg/${item.type}.jpg`;
+    var iconUrl = `../static/assets/img/${item.type || "아파트"}.png`;
+    var imgUrl = `../static/assets/placeImg/${item.type || "아파트"}.jpg`;
     var facilityMarker = new naver.maps.Marker({
       map: map,
       position: new naver.maps.LatLng(item.lat, item.lng),
@@ -344,48 +344,7 @@ function handleFormSubmit(event) {
       question: inputValue,
     },
     success: function (response) {
-      removeFacilityMarkers();
-      var bounds = map.getBounds();
-      var center = bounds.getCenter();
-      $(".side-list").empty();
-      const choices = response.choices;
-      if (choices.length > 0) {
-        for (var i = 0; i < choices.length; i++) {
-          var aiReturn = JSON.parse(choices[i].message.content);
-
-          if (aiReturn.facility) {
-            for (var j = 0; j < aiReturn.facility.length; j++) {
-              const facility = aiReturn.facility[j];
-              const distance =
-                Number(facility.distance || 50000) / //50000 m if facitily.distance is null
-                (facility.unit !== "km" ? 1000 : 1);
-              $.ajax({
-                url: "/facility/",
-                method: "GET",
-                contentType: "application/json",
-                data: {
-                  lat: center.lat(),
-                  lng: center.lng(),
-                  range: distance,
-                  type: facility.type,
-                },
-                success: function (response) {
-                  displayOnMap(response);
-                },
-                error: function (request, status, error) {
-                  console.error("주변 시설을 불러오는 중 에러 발생", error);
-                  alert("주변 시설을 불러오지 못했습니다. 다시 시도해주세요.");
-                },
-              });
-            }
-          }
-          if (aiReturn.apartment) {
-            console.log("apartment : ", aiReturn.apartment);
-          }
-        }
-      } else {
-        alert("주변에 시설이 없습니다.");
-      }
+      displayOnMap(response);
     },
     error: function (request, status, error) {
       console.error("주변 시설을 불러오는 중 에러 발생", error);

@@ -51,12 +51,11 @@ class ApartmentAPITest(TestCase):
                         "min": 2012,
                         "max": 2022,
                     },
-                    "price": {  # 가격 (min, max, 단위는 억원으로 통일)
-                        "min": 3,
-                        "max": 5,
-                        "unit": "억원",
+                    "price": {  # 가격은 만원 단위
+                        "min": 3000,
+                        "max": 5000,
+                        "unit": "만원",
                     },
-                    "households": 100,  # 세대수
                 },
             },
         )
