@@ -12,7 +12,7 @@ class ApartmentSearchAPI(generics.GenericAPIView):
     queryset = Apartment.objects.all()
 
     def post(self, request):
-        facilities_data = request.data.get("facilities", [])
+        facilities_data = request.data.get("facility", [])
         if not facilities_data:
             return Response(
                 {"error": "No facilities data provided"},
