@@ -59,4 +59,4 @@ class ApartmentAPITest(TestCase):
                 },
             },
         )
-        print(res.data)
+        # print(res.data)
