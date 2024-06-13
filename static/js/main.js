@@ -353,7 +353,7 @@ function handleFormSubmit(event) {
 
   // Access the value of the input element
   var inputValue = inputElement.value;
-
+  removeFacilityMarkers();
   $.ajax({
     url: "/apartment/gpt-search",
     method: "POST",
