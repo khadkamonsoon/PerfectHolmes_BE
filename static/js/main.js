@@ -207,25 +207,28 @@ function showMarkers(keyArr) {
   var center = bounds.getCenter();
   removeFacilityMarkers();
 
-  keyArr.forEach(function (key) {
-    $.ajax({
-      url: "/facility/",
-      method: "GET",
-      contentType: "application/json",
-      data: {
-        lat: center.lat(),
-        lng: center.lng(),
-        type: key,
-      },
-      success: function (response) {
-        displayOnMap(response);
-      },
-      error: function (request, status, error) {
-        console.error("주변 시설을 불러오는 중 에러 발생", error);
-        alert("주변 시설을 불러오지 못했습니다. 다시 시도해주세요.");
-      },
+  if (keyArr[0] === "아파트") {
+  } else {
+    keyArr.forEach(function (key) {
+      $.ajax({
+        url: "/facility/",
+        method: "GET",
+        contentType: "application/json",
+        data: {
+          lat: center.lat(),
+          lng: center.lng(),
+          type: key,
+        },
+        success: function (response) {
+          displayOnMap(response);
+        },
+        error: function (request, status, error) {
+          console.error("주변 시설을 불러오는 중 에러 발생", error);
+          alert("주변 시설을 불러오지 못했습니다. 다시 시도해주세요.");
+        },
+      });
     });
-  });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
